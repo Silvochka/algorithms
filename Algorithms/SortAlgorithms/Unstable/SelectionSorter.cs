@@ -3,29 +3,34 @@
 namespace Algorithms.SortAlgorithms
 {
     /// <summary>
-    /// Best:               O(n)
+    /// Best:               O(n^2)
     /// Average:            O(n^2)
     /// Worst:              O(n^2)
     /// Additional memory:  1 
     /// </summary>
     /// <remarks>
-    /// Stable
+    /// Find min
+    /// Place in begin
+    /// Begin ++
     /// </remarks>
-    public class BubbleSorter : ISorter
+    public class SelectionSorter : ISorter
     {
         public int sort(int[] array)
         {
             var count = 0;
             for (var i = 0; i < array.Length - 1; i++)
             {
-                for (var j = i; j < array.Length - 1; j++)
+                var min = i;
+                for (var j = i + 1; j < array.Length; j++)      // find minimal value
                 {
                     count++;
-                    if (array[i] > array[j + 1])
+                    if (array[j] < array[min])
                     {
-                        SortHelper.swap(array, i, j + 1);
+                        min = j;
                     }
                 }
+
+                SortHelper.swap(array, i, min);                 // insert in the beginning
             }
 
             return count;

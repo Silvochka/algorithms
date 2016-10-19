@@ -14,7 +14,7 @@ namespace Algorithms.SortAlgorithms
     /// Can works with similar speed as <see cref="InsertionSorter"/>
     /// j-optimization allows to jump to the latest compare place
     /// </remarks>
-    class GnomeSorter : ISorter
+    public class GnomeSorter : ISorter
     {
         public int sort(int[] array)
         {

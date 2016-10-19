@@ -12,7 +12,7 @@ namespace Algorithms.SortAlgorithms
     /// Could be run in parallel processors easily
     /// Stable
     /// </remarks>
-    class OddEvenSorter : ISorter
+    public class OddEvenSorter : ISorter
     {
         public int sort(int[] array)
         {

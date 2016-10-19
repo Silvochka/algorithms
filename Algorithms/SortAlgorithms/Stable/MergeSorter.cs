@@ -14,7 +14,7 @@
     /// - Best = Worst
     /// - Require O(n) additional memoty
     /// </remarks>
-    class MergeSorter : ISorter
+    public class MergeSorter : ISorter
     {
         private int count = 0;
         public int sort(int[] array)

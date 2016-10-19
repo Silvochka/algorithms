@@ -15,7 +15,7 @@
     /// + Stable
     /// + Online
     /// </remarks>
-    class InsertionSorter : ISorter
+    public class InsertionSorter : ISorter
     {
         public int sort(int[] array)
         {

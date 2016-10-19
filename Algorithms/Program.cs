@@ -8,7 +8,7 @@ namespace Algorithms
         static void Main(string[] args)
         {
             var input = new int[] { 4, 5, 1, 2, 3, 7, 6 };
-            ISorter sorter = new MergeSorter();
+            ISorter sorter = new SelectionSorter();
             var count = sorter.sort(input);
 
             Console.WriteLine(count);

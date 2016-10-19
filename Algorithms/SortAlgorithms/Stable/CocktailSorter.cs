@@ -3,7 +3,7 @@
 namespace Algorithms.SortAlgorithms
 {
     /// <summary>
-    /// Goes back and forth, checking onl part between last swaps
+    /// Goes back and forth, checking only part between last swaps
     /// Best:               O(n)
     /// Average:            O(n^2)
     /// Worst:              O(n^2)
@@ -13,7 +13,7 @@ namespace Algorithms.SortAlgorithms
     /// Could be better than <see cref="BubbleSorter"/>
     /// Stable
     /// </remarks>
-    class CocktailSorter : ISorter
+    public class CocktailSorter : ISorter
     {
         public int sort(int[] array)
         {
