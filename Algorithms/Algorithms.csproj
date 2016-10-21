@@ -76,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortAlgorithms\Stable\BubbleSorter.cs" />
+    <Compile Include="SortAlgorithms\Unstable\HeapSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\QuickSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\ShellSort.cs" />
     <Compile Include="SortAlgorithms\Unstable\SelectionSorter.cs" />

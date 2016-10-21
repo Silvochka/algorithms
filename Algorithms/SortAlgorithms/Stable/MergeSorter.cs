@@ -5,7 +5,7 @@
     /// Best:               O(n log(n))
     /// Average:            O(n log(n))
     /// Worst:              O(n log(n))
-    /// Additional memory:  n
+    /// Additional memory:  O(n)
     /// </summary>
     /// <remarks>
     /// + Works on strucctures with sequential access

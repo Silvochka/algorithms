@@ -7,7 +7,7 @@ namespace Algorithms.SortAlgorithms
     /// Best:               O(n log(n))
     /// Average:            O(n log(n))
     /// Worst:              O(n^2)
-    /// Additional memory:  n log(n)
+    /// Additional memory:  O(n log(n))
     /// </summary>
     /// <remarks>
     /// + In 3-way Best could be O(n)
