@@ -1,4 +1,6 @@
-﻿namespace Algorithms.SortAlgorithms
+﻿using System;
+
+namespace Algorithms.SortAlgorithms
 {
     /// <summary>
     /// Take next element and insert into sorted sequence
@@ -15,9 +17,10 @@
     /// + Stable
     /// + Online
     /// </remarks>
-    public class InsertionSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class InsertionSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
 
@@ -26,7 +29,7 @@
                 var key = array[i]; // key to be inserted into sorted sequence
                 var j = i - 1;
 
-                while (j >= 0 && array[j] > key)
+                while (j >= 0 && array[j].CompareTo(key) > 0)
                 {
                     count++;
                     array[j + 1] = array[j]; // shift sorted sequence while key is smaller

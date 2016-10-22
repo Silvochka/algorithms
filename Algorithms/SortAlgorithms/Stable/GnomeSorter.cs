@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -14,9 +15,10 @@ namespace Algorithms.SortAlgorithms
     /// Can works with similar speed as <see cref="InsertionSorter"/>
     /// j-optimization allows to jump to the latest compare place
     /// </remarks>
-    public class GnomeSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class GnomeSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
             var i = 1;
@@ -24,7 +26,7 @@ namespace Algorithms.SortAlgorithms
 
             while (i < array.Length)
             {
-                if (array[i-1] < array[i])
+                if (array[i-1].CompareTo(array[i]) < 0)
                 {
                     i = j;
                     j++;

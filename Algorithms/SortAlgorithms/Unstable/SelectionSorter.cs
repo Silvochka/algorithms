@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -13,9 +14,10 @@ namespace Algorithms.SortAlgorithms
     /// Place in begin
     /// Begin ++
     /// </remarks>
-    public class SelectionSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class SelectionSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
             for (var i = 0; i < array.Length - 1; i++)
@@ -24,7 +26,7 @@ namespace Algorithms.SortAlgorithms
                 for (var j = i + 1; j < array.Length; j++)      // find minimal value
                 {
                     count++;
-                    if (array[j] < array[min])
+                    if (array[j].CompareTo(array[min]) < 0)
                     {
                         min = j;
                     }

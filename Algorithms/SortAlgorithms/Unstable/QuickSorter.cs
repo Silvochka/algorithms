@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -18,17 +19,18 @@ namespace Algorithms.SortAlgorithms
     /// - Fast degradation in "bad" inputes
     /// - Not stable
     /// </remarks>
-    public class QuickSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class QuickSorter<T> : ISorter<T> where T : IComparable
     {
         private int count = 0;
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             this.count = 0;
             this.quickSort(array, 0, array.Length - 1);
             return this.count;
         }
 
-        private void quickSort(int[] array, int begin, int end)
+        private void quickSort(T[] array, int begin, int end)
         {
             if (begin >= end)
             {
@@ -41,14 +43,14 @@ namespace Algorithms.SortAlgorithms
             this.quickSort(array, pivotIndex + 1, end);
         }
 
-        private int partition(int[] array, int begin, int end)
+        private int partition(T[] array, int begin, int end)
         {
-            int pivot = array[end];
+            T pivot = array[end];
             int i = begin;                          // index to insert values
 
             for (int j = begin; j < end; j++)
             {
-                if (array[j] <= pivot)              // if element less tham pivot - move to i-place
+                if (array[j].CompareTo(pivot) <= 0)              // if element less tham pivot - move to i-place
                 {
                     SortHelper.swap(array, i, j);
                     i++;

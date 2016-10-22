@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -12,9 +13,10 @@ namespace Algorithms.SortAlgorithms
     /// Could be run in parallel processors easily
     /// Stable
     /// </remarks>
-    public class OddEvenSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class OddEvenSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
             var sorted = false;
@@ -25,7 +27,7 @@ namespace Algorithms.SortAlgorithms
                 for (var i = 1; i < array.Length - 1; i += 2)
                 {
                     count++;
-                    if (array[i] > array[i + 1])
+                    if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
                         sorted = false;
@@ -35,7 +37,7 @@ namespace Algorithms.SortAlgorithms
                 for (var i = 0; i < array.Length - 1; i += 2)
                 {
                     count++;
-                    if (array[i] > array[i + 1])
+                    if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
                         sorted = false;

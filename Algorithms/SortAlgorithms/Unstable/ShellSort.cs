@@ -1,4 +1,4 @@
-﻿using Algorithms.Helpers;
+﻿using System;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -16,9 +16,10 @@ namespace Algorithms.SortAlgorithms
     /// + O(1) additional memoty
     /// + No degradation in "bad" data cases
     /// </remarks>
-    public class ShellSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class ShellSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
             for (var d = array.Length / 2; d > 0; d /= 2)           // go throw d sequence
@@ -29,7 +30,7 @@ namespace Algorithms.SortAlgorithms
                     var j = i;
                     for (j = i; j >= d; j -= d)                     // see back with step = d till begin
                     {
-                        if (temp < array[j - d])                    // find place to insert temp, until element is bigger
+                        if (temp.CompareTo(array[j - d]) < 0)                    // find place to insert temp, until element is bigger
                         {
                             array[j] = array[j - d];                // insert sort
                             count++;

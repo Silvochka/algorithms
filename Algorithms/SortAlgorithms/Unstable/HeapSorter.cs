@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -19,10 +20,11 @@ namespace Algorithms.SortAlgorithms
     /// - Not stable
     /// <see cref="MergeSorter"/> uses more memory but faster (O(n log(n)) with less const) and doesn't degradate.
     /// </remarks>
-    public class HeapSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class HeapSorter<T> : ISorter<T> where T : IComparable
     {
         private int count = 0;
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             int heapLength = array.Length;
 
@@ -43,13 +45,13 @@ namespace Algorithms.SortAlgorithms
             return this.count;
         }
 
-        private void heapify(int[] array, int length, int begin)
+        private void heapify(T[] array, int length, int begin)
         {
             int left = begin * 2 + 1;
             int right = begin * 2 + 2;
             int indexOfLargestElement = 0;
 
-            if (left < length && array[left] > array[begin])            // find largest element of i, 2i + 1 and 2i + 2
+            if (left < length && array[left].CompareTo(array[begin]) > 0)            // find largest element of i, 2i + 1 and 2i + 2
             {
                 indexOfLargestElement = left;
             } 
@@ -58,7 +60,7 @@ namespace Algorithms.SortAlgorithms
                 indexOfLargestElement = begin;
             }
 
-            if (right < length && array[right] > array[indexOfLargestElement])
+            if (right < length && array[right].CompareTo(array[indexOfLargestElement]) > 0)
             {
                 indexOfLargestElement = right;
             }

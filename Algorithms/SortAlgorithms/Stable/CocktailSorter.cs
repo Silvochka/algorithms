@@ -1,4 +1,5 @@
-﻿using Algorithms.Helpers;
+﻿using System;
+using Algorithms.Helpers;
 
 namespace Algorithms.SortAlgorithms
 {
@@ -13,9 +14,10 @@ namespace Algorithms.SortAlgorithms
     /// Could be better than <see cref="BubbleSorter"/>
     /// Stable
     /// </remarks>
-    public class CocktailSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class CocktailSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             var count = 0;
             var left = 0;
@@ -26,7 +28,7 @@ namespace Algorithms.SortAlgorithms
                 for (var i = left; i < right; i++)
                 {
                     count++;
-                    if (array[i] > array[i + 1])
+                    if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
                     }
@@ -37,7 +39,7 @@ namespace Algorithms.SortAlgorithms
                 for (var i = right; i > left; i--)
                 {
                     count++;
-                    if (array[i - 1] > array[i])
+                    if (array[i - 1].CompareTo(array[i]) > 0)
                     {
                         SortHelper.swap(array, i - 1, i);
                     }

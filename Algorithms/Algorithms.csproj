@@ -67,13 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SortHelper.cs" />
+    <Compile Include="SortAlgorithms\NonComparison\BucketSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\GnomeSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\MergeSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\InsertionSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\OddEvenSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\CocktailSorter.cs" />
     <Compile Include="SortAlgorithms\ISorter.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortAlgorithms\Stable\BubbleSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\HeapSorter.cs" />

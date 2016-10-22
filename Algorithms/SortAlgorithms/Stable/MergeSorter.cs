@@ -1,4 +1,6 @@
-﻿namespace Algorithms.SortAlgorithms
+﻿using System;
+
+namespace Algorithms.SortAlgorithms
 {
     /// <summary>
     /// "Divide and conquer"
@@ -14,17 +16,18 @@
     /// - Best = Worst
     /// - Require O(n) additional memoty
     /// </remarks>
-    public class MergeSorter : ISorter
+    /// <typeparam name="T">Type of array's elements</typeparam>
+    public class MergeSorter<T> : ISorter<T> where T : IComparable
     {
         private int count = 0;
-        public int sort(int[] array)
+        public int sort(T[] array)
         {
             this.count = 0;
             this.mergeSort(array, 0, array.Length - 1);
             return this.count;
         }
 
-        private void mergeSort(int[] array, int begin, int end)
+        private void mergeSort(T[] array, int begin, int end)
         {
             if (begin >= end)
             {
@@ -39,9 +42,9 @@
             this.merge(array, begin, end, middle);
         }
 
-        private void merge(int[] array, int begin, int end, int middle)
+        private void merge(T[] array, int begin, int end, int middle)
         {
-            var result = new int[array.Length];
+            var result = new T[array.Length];
             var left = begin;
             var right = middle + 1;
             var length = end - begin + 1;
@@ -50,7 +53,7 @@
             {
                 if (left <= middle && right <= end)      //if we have both arrays
                 {
-                    if (array[left] < array[right])
+                    if (array[left].CompareTo(array[right]) < 0)
                     {
                         this.count++;
                         result[i] = array[left];         // add minimal value
