@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using Algorithms.SortAlgorithms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Algorithms.SortAlgorithms;
 
 namespace AlgorithmsTests.SortAlgorithms
 {
-    class SorterStringTester: ISorterTester<string>
+    class SorterStringTester : ISorterTester<string>
     {
         public void TestSortedSequence(ISorter<string> sorter)
         {

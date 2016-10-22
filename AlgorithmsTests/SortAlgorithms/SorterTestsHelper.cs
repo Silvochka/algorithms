@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Algorithms.SortAlgorithms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AlgorithmsTests.SortAlgorithms
 {
