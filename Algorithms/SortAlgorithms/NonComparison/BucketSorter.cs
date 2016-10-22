@@ -3,14 +3,13 @@
 namespace Algorithms.SortAlgorithms
 {
     /// <summary>
+    /// Place items in the backet
     /// Best:               Omega(n + k)
     /// Average:            Theta(n + k)
     /// Worst:              O(n^2)
     /// Additional memory:  n + k
+    /// where 0 < a[i] < k
     /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
     public class BucketSorter : ISorter<int>
     {
         public int sort(int[] array)
@@ -50,7 +49,7 @@ namespace Algorithms.SortAlgorithms
             }
 
             int position = 0;
-            for (var i = 0; i < buckets.Length; i++)
+            for (var i = 0; i < buckets.Length; i++)                        // place items back to array
             {
                 if (buckets[i].Count > 0)
                 {

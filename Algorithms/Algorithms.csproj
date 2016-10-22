@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SortHelper.cs" />
+    <Compile Include="SortAlgorithms\NonComparison\CountingStableSorter.cs" />
+    <Compile Include="SortAlgorithms\NonComparison\CountingSorter.cs" />
     <Compile Include="SortAlgorithms\NonComparison\BucketSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\GnomeSorter.cs" />
     <Compile Include="SortAlgorithms\Stable\MergeSorter.cs" />
