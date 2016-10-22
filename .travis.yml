@@ -1,0 +1,9 @@
+language: csharp
+solution: Algorithms.sln
+install:
+  - nuget restore Algorithms.sln
+  - nuget install NUnit -Version 3.5.0
+before_install:
+  - sudo apt-get install nunit-console
+after_script:
+  - nunit-console AlgorithmsTests/bin/Debug/AlgorithmsTests.dll
