@@ -1,4 +1,4 @@
-# Sorting algorithms
+# Sorting algorithms [![Build Status](https://travis-ci.org/Silvochka/algorithms.svg?branch=master)](https://travis-ci.org/Silvochka/algorithms)
 
 This repo is a C# library with implemented sorting alrogithms.
 
