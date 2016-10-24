@@ -6,7 +6,7 @@
     /// Average:            n + k
     /// Worst:              n + k
     /// Additional memory:  n + k
-    /// where 0 < a[i] < k
+    /// where a[i] from 0 to k
     /// </summary>
     /// <remarks>
     /// Stable

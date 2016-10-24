@@ -8,7 +8,7 @@ namespace Algorithms.SortAlgorithms
     /// Average:            Theta(n + k)
     /// Worst:              O(n^2)
     /// Additional memory:  n + k
-    /// where 0 < a[i] < k
+    /// where a[i] from 0 to k
     /// </summary>
     public class BucketSorter : ISorter<int>
     {
