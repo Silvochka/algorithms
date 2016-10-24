@@ -2,8 +2,7 @@ language: csharp
 solution: Algorithms.sln
 install:
   - nuget restore Algorithms.sln
-  - nuget install NUnit -Version 3.5.0
-before_install:
-  - sudo apt-get install nunit-console
-after_script:
-  - nunit-console AlgorithmsTests/bin/Debug/AlgorithmsTests.dll
+  - nuget install NUnit.Console -Version 3.4.1 -OutputDirectory testrunner
+script:
+  - xbuild Algorithms.sln /p:Configuration=Debug
+  - mono ./testrunner/NUnit.ConsoleRunner.3.4.1/tools/nunit3-console.exe ./AlgorithmsTests/bin/Debug/AlgorithmsTests.dll
