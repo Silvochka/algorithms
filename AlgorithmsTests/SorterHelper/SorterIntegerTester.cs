@@ -23,8 +23,8 @@ namespace AlgorithmsTests.SortAlgorithms
 
         public void TestRandomSequence(ISorter<int> sorter)
         {
-            var input = new int[] { 4, 1, 2, 3, 5 };
-            var expected = Enumerable.Range(1, 5).ToArray();
+            var input = new int[] { 45, 11, 299, 30, 51, 0 };
+            var expected = new int[] { 0, 11, 30, 45, 51, 299 };
             SorterTestsHelper.TestSorter(input, expected, sorter);
         }
     }

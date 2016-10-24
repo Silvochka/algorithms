@@ -20,8 +20,8 @@ namespace AlgorithmsTests.SortAlgorithms
 
         public void TestRandomSequence(ISorter<string> sorter)
         {
-            var input = new string[] { "c", "a", "b", "e", "d" };
-            var expected = new string[] { "a", "b", "c", "d", "e" };
+            var input = new string[] { "e", "d", "c", "bd", "abc", "ab" };
+            var expected = new string[] { "ab", "abc", "bd", "c", "d", "e" };
             SorterTestsHelper.TestSorter(input, expected, sorter);
         }
     }

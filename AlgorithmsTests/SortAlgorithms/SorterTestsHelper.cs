@@ -19,9 +19,10 @@ namespace AlgorithmsTests.SortAlgorithms
             CollectionAssert.AreEqual(
                 input,
                 expectedOutput,
-                string.Format("Sorter [{0}] can't sort next sequence: [{1}]. Actual result: [{2}]",
+                string.Format("Sorter [{0}] can't sort next sequence: [{1}]. Expected result: [{2}]. Actual result: [{3}]",
                     sorterAlgorithm.GetType().Name,
                     originalInput.Select(x => x.ToString()).Aggregate((x, y) => x + ", " + y),
+                    expectedOutput.Select(x => x.ToString()).Aggregate((x, y) => x + ", " + y),
                     input.Select(x => x.ToString()).Aggregate((x, y) => x + ", " + y)));
         }
     }
