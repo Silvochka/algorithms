@@ -17,13 +17,9 @@ namespace Algorithms.SortAlgorithms
     /// </remarks>
     public class MSDRadixSorter : ISorter<string>
     {
-        public int sort(string[] array)
+        public void sort(string[] array)
         {
-            var count = 0;
-
             this.internalSort(array, 0);
-
-            return count;
         }
 
         private void internalSort(string[] array, int charPosition)

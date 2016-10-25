@@ -11,15 +11,14 @@ namespace Algorithms.SortAlgorithms
     /// Additional memory:  1 
     /// </summary>
     /// <remarks>
-    /// Could be better than <see cref="BubbleSorter"/>
+    /// Could be better than <see cref="BubbleSorter{T}"/>
     /// Stable
     /// </remarks>
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class CocktailSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            var count = 0;
             var left = 0;
             var right = array.Length - 1;
 
@@ -27,7 +26,6 @@ namespace Algorithms.SortAlgorithms
             {
                 for (var i = left; i < right; i++)
                 {
-                    count++;
                     if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
@@ -38,7 +36,6 @@ namespace Algorithms.SortAlgorithms
 
                 for (var i = right; i > left; i--)
                 {
-                    count++;
                     if (array[i - 1].CompareTo(array[i]) > 0)
                     {
                         SortHelper.swap(array, i - 1, i);
@@ -47,8 +44,6 @@ namespace Algorithms.SortAlgorithms
                 }
                 left++;
             }
-
-            return count;
         }
     }
 }

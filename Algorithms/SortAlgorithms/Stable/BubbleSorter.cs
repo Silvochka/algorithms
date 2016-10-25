@@ -15,22 +15,18 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class BubbleSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            var count = 0;
             for (var i = 0; i < array.Length - 1; i++)
             {
                 for (var j = i; j < array.Length - 1; j++)
                 {
-                    count++;
                     if (array[i].CompareTo(array[j + 1]) > 0)
                     {
                         SortHelper.swap(array, i, j + 1);
                     }
                 }
             }
-
-            return count;
         }
     }
 }

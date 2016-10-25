@@ -8,17 +8,15 @@ namespace Algorithms.SortAlgorithms
     /// Average:            Theta(n + k)
     /// Worst:              O(n^2)
     /// Additional memory:  n + k
-    /// where a[i] from 0 to k
+    /// where 0 < a[i] < k
     /// </summary>
     public class BucketSorter : ISorter<int>
     {
-        public int sort(int[] array)
+        public void sort(int[] array)
         {
-            var count = 0;
-
             if (array.Length < 2)
             {
-                return count;
+                return;
             }
 
             var maxValue = array[0];
@@ -60,8 +58,6 @@ namespace Algorithms.SortAlgorithms
                     }
                 }
             }
-
-            return count;
         }
     }
 }

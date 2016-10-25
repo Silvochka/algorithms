@@ -22,12 +22,9 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class QuickSorter<T> : ISorter<T> where T : IComparable
     {
-        private int count = 0;
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            this.count = 0;
             this.quickSort(array, 0, array.Length - 1);
-            return this.count;
         }
 
         private void quickSort(T[] array, int begin, int end)
@@ -54,12 +51,10 @@ namespace Algorithms.SortAlgorithms
                 {
                     SortHelper.swap(array, i, j);
                     i++;
-                    this.count++;
                 }
             }
 
             SortHelper.swap(array, i, end);         // place pivot to middle between 'less' and 'greater'
-            this.count++;
 
             return i;
         }

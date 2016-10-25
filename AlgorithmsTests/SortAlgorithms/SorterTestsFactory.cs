@@ -62,24 +62,25 @@ namespace AlgorithmsTests.SortAlgorithms
 
             foreach (Type sorterType in this.sorterTypes)
             {
-                ISorter<T> sorterIntegerImplementation = null;
+                ISorter<T> sorterImplementation = null;
 
                 if (sorterType.IsGenericTypeDefinition)
                 {
                     Type[] typeArgs = { typeof(T) };
                     Type constructed = sorterType.MakeGenericType(typeArgs);
-                    sorterIntegerImplementation = Activator.CreateInstance(constructed) as ISorter<T>;
+                    sorterImplementation = Activator.CreateInstance(constructed) as ISorter<T>;
                 }
                 else if (typeof(ISorter<T>).IsAssignableFrom(sorterType))
                 {
-                    sorterIntegerImplementation = Activator.CreateInstance(sorterType) as ISorter<T>;
+                    sorterImplementation = Activator.CreateInstance(sorterType) as ISorter<T>;
                 }
 
-                if (sorterIntegerImplementation != null)
+                if (sorterImplementation != null)
                 {
-                    sorterHelper.TestSortedSequence(sorterIntegerImplementation);
-                    sorterHelper.TestReverseSortedSequence(sorterIntegerImplementation);
-                    sorterHelper.TestRandomSequence(sorterIntegerImplementation);
+                    sorterHelper.TestSortedSequence(sorterImplementation);
+                    sorterHelper.TestReverseSortedSequence(sorterImplementation);
+                    sorterHelper.TestRandomSequence(sorterImplementation);
+                    SorterTestsHelper.TestSorterOnEmptyData(sorterImplementation);
                 }
             }
         }

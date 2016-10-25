@@ -19,12 +19,9 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class MergeSorter<T> : ISorter<T> where T : IComparable
     {
-        private int count = 0;
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            this.count = 0;
             this.mergeSort(array, 0, array.Length - 1);
-            return this.count;
         }
 
         private void mergeSort(T[] array, int begin, int end)
@@ -55,13 +52,11 @@ namespace Algorithms.SortAlgorithms
                 {
                     if (array[left].CompareTo(array[right]) < 0)
                     {
-                        this.count++;
                         result[i] = array[left];         // add minimal value
                         left++;
                     }
                     else
                     {
-                        this.count++;
                         result[i] = array[right];
                         right++;
                     }

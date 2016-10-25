@@ -17,10 +17,8 @@ namespace Algorithms.SortAlgorithms
     /// </remarks>
     public class LSDRadixSorter : ISorter<int>
     {
-        public int sort(int[] array)
+        public void sort(int[] array)
         {
-            var count = 0;
-
             List<int> negativeNumbers = new List<int>();
             List<int> positiveNumbers = new List<int>();
 
@@ -51,8 +49,6 @@ namespace Algorithms.SortAlgorithms
                 array[position] = positiveNumbers[i];
                 position++;
             }
-
-            return count;
         }
 
         private void internalSort(List<int> array)

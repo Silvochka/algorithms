@@ -18,13 +18,12 @@ namespace Algorithms.SortAlgorithms
     /// - Doesn't work with linked lists
     /// - Worst = Best
     /// - Not stable
-    /// <see cref="MergeSorter"/> uses more memory but faster (O(n log(n)) with less const) and doesn't degradate.
+    /// <see cref="MergeSorter{T}"/> uses more memory but faster (O(n log(n)) with less const) and doesn't degradate.
     /// </remarks>
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class HeapSorter<T> : ISorter<T> where T : IComparable
     {
-        private int count = 0;
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
             int heapLength = array.Length;
 
@@ -36,13 +35,10 @@ namespace Algorithms.SortAlgorithms
             for (var i = array.Length - 1; i > 0; i--)
             {
                 SortHelper.swap(array, 0, i);                       // put largest element from heap head to the end of array
-                this.count++;
 
                 heapLength--;
                 this.heapify(array, heapLength, 0);
             }
-
-            return this.count;
         }
 
         private void heapify(T[] array, int length, int begin)
@@ -54,7 +50,7 @@ namespace Algorithms.SortAlgorithms
             if (left < length && array[left].CompareTo(array[begin]) > 0)            // find largest element of i, 2i + 1 and 2i + 2
             {
                 indexOfLargestElement = left;
-            } 
+            }
             else
             {
                 indexOfLargestElement = begin;
@@ -68,7 +64,6 @@ namespace Algorithms.SortAlgorithms
             if (indexOfLargestElement != begin)
             {
                 SortHelper.swap(array, indexOfLargestElement, begin);    // put largest element to i-place and run heapify for replaced element
-                this.count++;
 
                 this.heapify(array, length, indexOfLargestElement);
             }

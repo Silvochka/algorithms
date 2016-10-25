@@ -21,6 +21,6 @@
     /// <typeparam name="T">Type of array's elements</typeparam>
     public interface ISorter<T>
     {
-        int sort(T[] array);
+        void sort(T[] array);
     }
 }

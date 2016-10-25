@@ -17,15 +17,13 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class SelectionSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            var count = 0;
             for (var i = 0; i < array.Length - 1; i++)
             {
                 var min = i;
                 for (var j = i + 1; j < array.Length; j++)      // find minimal value
                 {
-                    count++;
                     if (array[j].CompareTo(array[min]) < 0)
                     {
                         min = j;
@@ -34,8 +32,6 @@ namespace Algorithms.SortAlgorithms
 
                 SortHelper.swap(array, i, min);                 // insert in the beginning
             }
-
-            return count;
         }
     }
 }

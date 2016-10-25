@@ -19,9 +19,8 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class ShellSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            var count = 0;
             for (var d = array.Length / 2; d > 0; d /= 2)           // go throw d sequence
             {
                 for (var i = d; i < array.Length; i++)              // go from d element to the end
@@ -33,7 +32,6 @@ namespace Algorithms.SortAlgorithms
                         if (temp.CompareTo(array[j - d]) < 0)                    // find place to insert temp, until element is bigger
                         {
                             array[j] = array[j - d];                // insert sort
-                            count++;
                         }
                         else
                         {
@@ -41,11 +39,9 @@ namespace Algorithms.SortAlgorithms
                         }
                     }
 
-                   array[j] = temp;
+                    array[j] = temp;
                 }
             }
-
-            return count;
         }
     }
 }

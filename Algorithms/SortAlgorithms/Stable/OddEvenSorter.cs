@@ -16,9 +16,8 @@ namespace Algorithms.SortAlgorithms
     /// <typeparam name="T">Type of array's elements</typeparam>
     public class OddEvenSorter<T> : ISorter<T> where T : IComparable
     {
-        public int sort(T[] array)
+        public void sort(T[] array)
         {
-            var count = 0;
             var sorted = false;
 
             while (!sorted)
@@ -26,7 +25,6 @@ namespace Algorithms.SortAlgorithms
                 sorted = true;
                 for (var i = 1; i < array.Length - 1; i += 2)
                 {
-                    count++;
                     if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
@@ -36,7 +34,6 @@ namespace Algorithms.SortAlgorithms
 
                 for (var i = 0; i < array.Length - 1; i += 2)
                 {
-                    count++;
                     if (array[i].CompareTo(array[i + 1]) > 0)
                     {
                         SortHelper.swap(array, i, i + 1);
@@ -44,8 +41,6 @@ namespace Algorithms.SortAlgorithms
                     }
                 }
             }
-
-            return count;
         }
     }
 }

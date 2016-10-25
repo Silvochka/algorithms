@@ -25,5 +25,12 @@ namespace AlgorithmsTests.SortAlgorithms
                     expectedOutput.Select(x => x.ToString()).Aggregate((x, y) => x + ", " + y),
                     input.Select(x => x.ToString()).Aggregate((x, y) => x + ", " + y)));
         }
+
+        public static void TestSorterOnEmptyData<T>(ISorter<T> sorterAlgorithm)
+        {
+            Assert.IsNotNull(sorterAlgorithm, "sorterAlgorithm is invalid");
+            var input = new T[0];
+            sorterAlgorithm.sort(input);
+        }
     }
 }
