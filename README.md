@@ -3,23 +3,25 @@
 This repo is a C# library with implemented sorting alrogithms.
 
 Stable, generic:
-  - Bubble sort
-  - Cocktail sort
-  - Gnome sort
-  - Insertion sort
-  - Merge sort
-  - OddEven sort
+  - [Bubble sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/BubbleSorter.cs) 
+  - [Cocktail sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/CocktailSorter.cs) 
+  - [Gnome sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/GnomeSorter.cs) 
+  - [Insertion sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/InsertionSorter.cs) 
+  - [Merge sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/MergeSorter.cs) 
+  - [OddEven sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Stable/OddEvenSorter.cs) 
 
 Unstable, generic:
-  - Heap sort
-  - Quick sort
-  - Selection sort
-  - Shell sort
+  - [Heap sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Unstable/HeapSorter.cs) 
+  - [Quick sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Unstable/QuickSorter.cs) 
+  - [Selection sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Unstable/SelectionSorter.cs) 
+  - [Shell sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/Unstable/ShellSorter.cs) 
 
 Non-comparison based algorithms:
-  - Bucket sort - implemented for integer
-  - Couting sort (unstable and stable) - implemented for integer
-  - Radix (LSD, MSD)
+  - [Bucket sort](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/NonComparison/BucketSorter.cs)  - implemented for integer
+  - [Couting sort (stable)](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/NonComparison/CountingStableSorter.cs)  - implemented for integer
+  - [Couting sort (unstable)](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/NonComparison/CountingSorter.cs)  - implemented for integer
+  - [LSD Radix](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/NonComparison/LSDRadixSorter.cs) - implemented for integer
+  - [MSD Radix](https://github.com/Silvochka/algorithms/blob/master/Algorithms/SortAlgorithms/NonComparison/MSDRadixSorter.cs) - implemented for strings
 
 ### Test framework
 
@@ -33,7 +35,9 @@ Each type tested on next inputs:
   - Sorted sequense
   - Reverted sorted sequense
   - Random shuffled sequense
+  - Empty array
 
-This is young repo so I have plans to log statistic for each sorter:
-  - Time of sorting depends on elements count
-  - How much switches/smth else was done
+This is young repo so I have plans to 
+  - log statistic for each sorter:
+    - Time of sorting depends on elements count
+  - implement structures and work with them
