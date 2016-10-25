@@ -82,7 +82,7 @@
     <Compile Include="SortAlgorithms\Stable\BubbleSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\HeapSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\QuickSorter.cs" />
-    <Compile Include="SortAlgorithms\Unstable\ShellSort.cs" />
+    <Compile Include="SortAlgorithms\Unstable\ShellSorter.cs" />
     <Compile Include="SortAlgorithms\Unstable\SelectionSorter.cs" />
   </ItemGroup>
   <ItemGroup>
