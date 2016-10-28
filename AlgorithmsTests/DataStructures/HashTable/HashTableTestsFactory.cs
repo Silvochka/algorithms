@@ -38,7 +38,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             foreach (Type hashTableType in this.hashTableTypes)
             {
                 IHashTable hashTable = Activator.CreateInstance(hashTableType) as IHashTable;
-                hashTable.Add(5);
+                Assert.IsTrue(hashTable.Add(5));
 
                 Assert.IsTrue(hashTable.Contains(5));
             }
@@ -50,7 +50,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             foreach (Type hashTableType in this.hashTableTypes)
             {
                 IHashTable hashTable = Activator.CreateInstance(hashTableType) as IHashTable;
-                hashTable.Add(5);
+                Assert.IsTrue(hashTable.Add(5));
                 hashTable.Clear();
 
                 Assert.IsTrue(hashTable.Count() == 0);
@@ -63,9 +63,9 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             foreach (Type hashTableType in this.hashTableTypes)
             {
                 IHashTable hashTable = Activator.CreateInstance(hashTableType) as IHashTable;
-                hashTable.Add(5);
-                hashTable.Add(15);
-                hashTable.Add(14);
+                Assert.IsTrue(hashTable.Add(5));
+                Assert.IsTrue(hashTable.Add(15));
+                Assert.IsTrue(hashTable.Add(14));
                 Assert.IsTrue(hashTable.Remove(15));
                 Assert.IsTrue(hashTable.Contains(5));
                 Assert.IsFalse(hashTable.Contains(15));
@@ -78,13 +78,13 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             foreach (Type hashTableType in this.hashTableTypes)
             {
                 IHashTable hashTable = Activator.CreateInstance(hashTableType, 2) as IHashTable;
-                hashTable.Add(5);
-                hashTable.Add(15);
-                hashTable.Add(14);
-                hashTable.Add(17);
+                Assert.IsTrue(hashTable.Add(5));
+                Assert.IsTrue(hashTable.Add(15));
+                Assert.IsTrue(hashTable.Add(13));
+                Assert.IsTrue(hashTable.Add(17));
                 Assert.IsTrue(hashTable.Contains(15));
                 Assert.IsTrue(hashTable.Contains(5));
-                Assert.IsTrue(hashTable.Contains(14));
+                Assert.IsTrue(hashTable.Contains(13));
             }
         }
 
@@ -95,7 +95,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             {
                 IHashTable hashTable = Activator.CreateInstance(hashTableType, 2) as IHashTable;
 
-                var items = new int[] { 5, 15, 14 };
+                var items = new int[] { 5, 15, 13 };
                 foreach (var item in items)
                 {
                     hashTable.Add(item);
@@ -109,6 +109,39 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                     Assert.IsTrue(items.Contains(item));
                 }
             }
+        }
+
+        [Test]
+        public void QuadraticHashTableOverloadingAddingTest()
+        {
+            IHashTable hashTable = new QuadraticHashTable(2);
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsFalse(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Count() == 2);
+        }
+
+        [Test]
+        public void QuadraticHashTableOverloadingContainsTest()
+        {
+            IHashTable hashTable = new QuadraticHashTable(2);
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsFalse(hashTable.Add(6));
+            Assert.IsFalse(hashTable.Contains(6));
+        }
+
+        [Test]
+        public void QuadraticHashTableOverloadingRemoveTest()
+        {
+            IHashTable hashTable = new QuadraticHashTable(2);
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsFalse(hashTable.Add(6));
+            Assert.IsFalse(hashTable.Remove(6));
+            Assert.IsTrue(hashTable.Remove(3));
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Count() == 2);
         }
     }
 }

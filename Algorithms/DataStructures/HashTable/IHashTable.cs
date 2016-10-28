@@ -8,7 +8,7 @@ namespace Algorithms.DataStructures.HashTable
     /// </summary>
     public interface IHashTable : IEnumerable<int>
     {
-        void Add(int value);
+        bool Add(int value);
 
         bool Contains(int value);
 

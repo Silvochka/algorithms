@@ -5,20 +5,20 @@ using Algorithms.DataStructures.Common;
 namespace Algorithms.DataStructures.HashTable
 {
     /// <summary>
-    /// Implementation of hash tabl with linear probing
+    /// Implementation of hash tabl with qiadric probing
     /// </summary>
-    public class LinearHashTable : IEnumerable<int>, IHashTable
+    public class QuadraticHashTable : IEnumerable<int>, IHashTable
     {
         private int Size { get; set; }
         private int Count { get; set; }
         private HashTableItem<int>[] Storage { get; set; }
 
-        public LinearHashTable()
+        public QuadraticHashTable()
             : this(10)
         {
         }
 
-        public LinearHashTable(int size)
+        public QuadraticHashTable(int size)
         {
             this.Size = PrimeList.GetNextPrime(size);
             this.Storage = new HashTableItem<int>[this.Size];
@@ -32,11 +32,21 @@ namespace Algorithms.DataStructures.HashTable
                 this.Rebuild();
             }
 
-            var index = this.GetHash(value);
+            var baseIndex = this.GetHash(value);
+            var index = baseIndex;
+            var step = 0;
             while (this.Storage[index] != null &&
                 (!this.Storage[index].IsDeleted || !this.Storage[index].IsEmpty))
             {
-                index = this.GetNextProbingIndex(index);
+                index = this.GetNextProbingIndex(baseIndex, step);
+                if (step < this.Size)
+                {
+                    step++;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             if (this.Storage[index] == null)
@@ -53,7 +63,9 @@ namespace Algorithms.DataStructures.HashTable
 
         public bool Contains(int value)
         {
-            var index = this.GetHash(value);
+            var baseIndex = this.GetHash(value);
+            var index = baseIndex;
+            var step = 0;
             while (true)
             {
                 if (this.Storage[index] == null
@@ -68,13 +80,24 @@ namespace Algorithms.DataStructures.HashTable
                     return true;
                 }
 
-                index = this.GetNextProbingIndex(index);
+                if (step < this.Size)
+                {
+                    step++;
+                }
+                else
+                {
+                    return false;
+                }
+
+                index = this.GetNextProbingIndex(baseIndex, step);
             }
         }
 
         public bool Remove(int value)
         {
-            var index = this.GetHash(value);
+            var baseIndex = this.GetHash(value);
+            var index = baseIndex;
+            var step = 0;
             while (true)
             {
                 if (this.Storage[index] == null
@@ -86,11 +109,26 @@ namespace Algorithms.DataStructures.HashTable
                 if (this.Storage[index].Content == value)
                 {
                     this.Storage[index].IsDeleted = true;
+                    this.Storage[index].IsEmpty = true;
                     this.Count--;
                     return true;
                 }
 
-                index = this.GetNextProbingIndex(index);
+                if (this.Storage[index].Content == value)
+                {
+                    return true;
+                }
+
+                if (step < this.Size)
+                {
+                    step++;
+                }
+                else
+                {
+                    return false;
+                }
+
+                index = this.GetNextProbingIndex(baseIndex, step);
             }
         }
 
@@ -128,9 +166,9 @@ namespace Algorithms.DataStructures.HashTable
             return value % this.Size;
         }
 
-        private int GetNextProbingIndex(int index)
+        private int GetNextProbingIndex(int index, int step)
         {
-            return (index + 1) % this.Size;
+            return (index + step * step) % this.Size;
         }
 
         public IEnumerator<int> GetEnumerator()

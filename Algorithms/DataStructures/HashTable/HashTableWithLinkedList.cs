@@ -24,7 +24,7 @@ namespace Algorithms.DataStructures.HashTable
             this.Count = 0;
         }
 
-        public void Add(int value)
+        public bool Add(int value)
         {
             if (this.Count >= this.Size)
             {
@@ -39,6 +39,7 @@ namespace Algorithms.DataStructures.HashTable
 
             this.Storage[index].AddLast(value);
             this.Count++;
+            return true;
         }
 
         public bool Contains(int value)
