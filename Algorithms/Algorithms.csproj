@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="DataStructures\Common\PrimeList.cs" />
     <Compile Include="DataStructures\HashTable\HashTableItem.cs" />
+    <Compile Include="DataStructures\HashTable\DoubleHashTable.cs" />
     <Compile Include="DataStructures\HashTable\QuadraticHashTable.cs" />
     <Compile Include="DataStructures\HashTable\LinearHashTable.cs" />
     <Compile Include="DataStructures\HashTable\IHashTable.cs" />
