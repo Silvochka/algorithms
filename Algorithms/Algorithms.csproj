@@ -66,6 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\Common\PrimeList.cs" />
+    <Compile Include="DataStructures\HashTable\HashTableWithLinkedList.cs" />
+    <Compile Include="DataStructures\LinkedList\SinglyLinkedList.cs" />
+    <Compile Include="DataStructures\LinkedList\SinglyLinkedListNode.cs" />
     <Compile Include="Helpers\SortHelper.cs" />
     <Compile Include="SortAlgorithms\NonComparison\MSDRadixSorter.cs" />
     <Compile Include="SortAlgorithms\NonComparison\LSDRadixSorter.cs" />
