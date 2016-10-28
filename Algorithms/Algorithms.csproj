@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructures\Common\PrimeList.cs" />
+    <Compile Include="DataStructures\HashTable\HashTableItem.cs" />
+    <Compile Include="DataStructures\HashTable\LinearHashTable.cs" />
+    <Compile Include="DataStructures\HashTable\IHashTable.cs" />
     <Compile Include="DataStructures\HashTable\HashTableWithLinkedList.cs" />
     <Compile Include="DataStructures\LinkedList\SinglyLinkedList.cs" />
     <Compile Include="DataStructures\LinkedList\SinglyLinkedListNode.cs" />

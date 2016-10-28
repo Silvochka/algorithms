@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Algorithms.DataStructures.HashTable
 {
-    public class HashTableWithLinkedList: IEnumerable<int>
+    /// <summary>
+    /// Implements hash table with using linked list
+    /// </summary>
+    public class HashTableWithLinkedList: IEnumerable<int>, IHashTable
     {
         private int Size { get; set; }
         private int Count { get; set; }
@@ -37,7 +40,6 @@ namespace Algorithms.DataStructures.HashTable
             this.Storage[index].AddLast(value);
             this.Count++;
         }
-
 
         public bool Contains(int value)
         {
@@ -82,6 +84,7 @@ namespace Algorithms.DataStructures.HashTable
                 newStorageItems.Add(item);
             }
 
+            this.Count = 0;
             this.Storage = new LinkedList<int>[this.Size];
             foreach (var item in newStorageItems)
             {

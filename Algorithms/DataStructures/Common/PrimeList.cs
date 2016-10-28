@@ -30,7 +30,7 @@ namespace Algorithms.DataStructures.Common
             }
 
             var isPrime = true;
-            for (int i = 2; i < Math.Sqrt(number); i++)
+            for (int i = 2; i < Math.Max(Math.Sqrt(number), 3); i++)
             {
                 if (number % i == 0)
                 {

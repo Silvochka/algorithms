@@ -72,7 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DataStructures\HashTable\HashTableWithLinkedListTests.cs" />
+    <Compile Include="DataStructures\HashTable\HashTableTestsFactory.cs" />
     <Compile Include="DataStructures\LinkedList\SinglyLinkedListTests.cs" />
     <Compile Include="SortAlgorithms\SorterTestsFactory.cs" />
     <Compile Include="SortAlgorithms\SorterTestsHelper.cs" />
