@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Algorithms.DataStructures.Tree
 {
@@ -46,6 +47,42 @@ namespace Algorithms.DataStructures.Tree
             }
 
             return this.RemoveIn(this.Root, content);
+        }
+
+        public void Traverse(TraverseDirection direction, Action<T> action, bool iterativeImplementation = false)
+        {
+            if (this.Root == null)
+            {
+                return;
+            }
+
+            if (direction == TraverseDirection.Breadth)
+            {
+                this.BreadthTraverse(action);
+                return;
+            }
+
+            if (!iterativeImplementation)
+            {
+                this.TraverseIn(this.Root, direction, action);
+            }
+            else
+            {
+                switch (direction)
+                {
+                    case TraverseDirection.Infix:
+                        this.InfixTraverse(action);
+                        break;
+
+                    case TraverseDirection.Prefix:
+                        this.PrefixTraverse(action);
+                        break;
+
+                    case TraverseDirection.Postfix:
+                        this.PostfixTraverse(action);
+                        break;
+                }
+            }
         }
 
         private void InsertTo(BinarySearchTreeNode<T> node, T content)
@@ -106,7 +143,7 @@ namespace Algorithms.DataStructures.Tree
                     {
                         node.Parent.Left = null;
                     }
-                    else if(node.IsRightChild)
+                    else if (node.IsRightChild)
                     {
                         node.Parent.Right = null;
                     }
@@ -163,6 +200,133 @@ namespace Algorithms.DataStructures.Tree
             else
             {
                 return node.HasRight && this.RemoveIn(node.Right, content);
+            }
+        }
+
+        private void TraverseIn(BinarySearchTreeNode<T> node, TraverseDirection direction, Action<T> action)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            switch (direction)
+            {
+                // elements in order: left, node, right
+                case TraverseDirection.Infix:
+                    this.TraverseIn(node.Left, direction, action);
+                    action(node.Content);
+                    this.TraverseIn(node.Right, direction, action);
+                    break;
+
+                // elements like in tree: node, left, right
+                case TraverseDirection.Prefix:
+                    action(node.Content);
+                    this.TraverseIn(node.Left, direction, action);
+                    this.TraverseIn(node.Right, direction, action);
+                    break;
+
+                // elements 
+                case TraverseDirection.Postfix:
+                    this.TraverseIn(node.Left, direction, action);
+                    this.TraverseIn(node.Right, direction, action);
+                    action(node.Content);
+                    break;
+
+            }
+        }
+
+        private void InfixTraverse(Action<T> action)
+        {
+            var stack = new Stack<BinarySearchTreeNode<T>>();
+            var currentNode = this.Root;
+            while (stack.Count > 0 || currentNode != null)
+            {
+                if (currentNode != null)
+                {
+                    stack.Push(currentNode);
+                    currentNode = currentNode.Left;
+                }
+                else
+                {
+                    currentNode = stack.Pop();
+                    action(currentNode.Content);
+                    currentNode = currentNode.Right;
+                }
+            }
+        }
+
+        private void PrefixTraverse(Action<T> action)
+        {
+            var stack = new Stack<BinarySearchTreeNode<T>>();
+            stack.Push(this.Root);
+
+            while (stack.Count > 0)
+            {
+                var currentNode = stack.Pop();
+                action(currentNode.Content);
+
+                if (currentNode.HasRight)
+                {
+                    stack.Push(currentNode.Right);
+                }
+
+                if (currentNode.HasLeft)
+                {
+                    stack.Push(currentNode.Left);
+                }
+            }
+        }
+
+        private void PostfixTraverse(Action<T> action)
+        {
+            var stack = new Stack<BinarySearchTreeNode<T>>();
+            BinarySearchTreeNode<T> lastVisited = null;
+            var currentNode = this.Root;
+
+            while (stack.Count > 0 || currentNode != null)
+            {
+                if (currentNode != null)
+                {
+                    stack.Push(currentNode);
+                    currentNode = currentNode.Left;
+                }
+                else
+                {
+                    var peekNode = stack.Peek();
+
+                    // if right node exists and traversing from left child - then move right
+                    if (peekNode.HasRight && lastVisited != peekNode.Right)
+                    {
+                        currentNode = peekNode.Right;
+                    }
+                    else
+                    {
+                        action(peekNode.Content);
+                        lastVisited = stack.Pop();
+                    }
+                }
+            }
+        }
+
+        private void BreadthTraverse(Action<T> action)
+        {
+            var queue = new Queue<BinarySearchTreeNode<T>>();
+            queue.Enqueue(this.Root);
+            while (queue.Count > 0)
+            {
+                var currentNode = queue.Dequeue();
+                action(currentNode.Content);
+
+                if (currentNode.HasLeft)
+                {
+                    queue.Enqueue(currentNode.Left);
+                }
+
+                if (currentNode.HasRight)
+                {
+                    queue.Enqueue(currentNode.Right);
+                }
             }
         }
     }

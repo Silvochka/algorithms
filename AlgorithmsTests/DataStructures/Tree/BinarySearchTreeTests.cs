@@ -1,4 +1,5 @@
-﻿using Algorithms.DataStructures.Tree;
+﻿using System.Collections.Generic;
+using Algorithms.DataStructures.Tree;
 using NUnit.Framework;
 
 namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
@@ -91,6 +92,126 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsTrue(tree.Root.Right.Right.Left.Left.Content == 11, "BST: original element of replaced should be removed");
             Assert.IsNotNull(tree.Root.Right.Right.Left.Left.Parent, "BST: parent reference should be correct");
             Assert.IsTrue(tree.Root.Right.Right.Left.Left.Parent.Content == 12, "BST: parent reference should be correct");
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void BinarySearchTreeInfixTraverseTest(bool iterativeImplementation)
+        {
+            var tree = new BinarySearchTree<int>();
+            var traverseResult = new List<int>();
+            tree.Traverse(TraverseDirection.Infix, (v) => traverseResult.Add(v), iterativeImplementation);
+            Assert.IsTrue(
+                traverseResult.Count == 0,
+                "Infix traverse on empty tree should be empty with iterativeImplementation [{0}]",
+                iterativeImplementation);
+
+            tree.Insert(7);
+            tree.Insert(3);
+            tree.Insert(1);
+            tree.Insert(4);
+            tree.Insert(9);
+            tree.Insert(8);
+            tree.Insert(15);
+
+            tree.Traverse(TraverseDirection.Infix, (v) => traverseResult.Add(v), iterativeImplementation);
+            var expectedResult = new int[7] { 1, 3, 4, 7, 8, 9, 15};
+
+            CollectionAssert.AreEqual(
+                expectedResult, 
+                traverseResult,
+                "Infix traverse should return correct reult with iterativeImplementation [{0}]",
+                iterativeImplementation);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void BinarySearchTreePrefixTraverseTest(bool iterativeImplementation)
+        {
+            var tree = new BinarySearchTree<int>();
+            var traverseResult = new List<int>();
+            tree.Traverse(TraverseDirection.Prefix, (v) => traverseResult.Add(v), iterativeImplementation);
+            Assert.IsTrue(
+                traverseResult.Count == 0,
+                "Prefix traverse on empty tree should be empty with iterativeImplementation [{0}]",
+                iterativeImplementation);
+
+            tree.Insert(7);
+            tree.Insert(3);
+            tree.Insert(1);
+            tree.Insert(4);
+            tree.Insert(9);
+            tree.Insert(8);
+            tree.Insert(15);
+
+            tree.Traverse(TraverseDirection.Prefix, (v) => traverseResult.Add(v), iterativeImplementation);
+            var expectedResult = new int[7] { 7, 3, 1, 4, 9, 8, 15 };
+
+            CollectionAssert.AreEqual(
+                expectedResult,
+                traverseResult, 
+                "Prefix traverse should return correct reult with iterativeImplementation [{0}]",
+                iterativeImplementation);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void BinarySearchTreePostfixTraverseTest(bool iterativeImplementation)
+        {
+            var tree = new BinarySearchTree<int>();
+            var traverseResult = new List<int>();
+            tree.Traverse(TraverseDirection.Postfix, (v) => traverseResult.Add(v), iterativeImplementation);
+            Assert.IsTrue(
+                traverseResult.Count == 0,
+                "Postfix traverse on empty tree should be empty with iterativeImplementation [{0}]",
+                iterativeImplementation);
+
+            tree.Insert(7);
+            tree.Insert(3);
+            tree.Insert(1);
+            tree.Insert(4);
+            tree.Insert(9);
+            tree.Insert(8);
+            tree.Insert(15);
+
+            tree.Traverse(TraverseDirection.Postfix, (v) => traverseResult.Add(v), iterativeImplementation);
+            var expectedResult = new int[7] { 1, 4, 3, 8, 15, 9, 7 };
+
+            CollectionAssert.AreEqual(
+                expectedResult,
+                traverseResult, 
+                "Postfix traverse should return correct reult with iterativeImplementation [{0}]",
+                iterativeImplementation);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void BinarySearchTreeBreadthTraverseTest(bool iterativeImplementation)
+        {
+            var tree = new BinarySearchTree<int>();
+            var traverseResult = new List<int>();
+            tree.Traverse(TraverseDirection.Breadth, (v) => traverseResult.Add(v), iterativeImplementation);
+            Assert.IsTrue(
+                traverseResult.Count == 0,
+                "Breadth traverse on empty tree should be empty with iterativeImplementation [{0}]",
+                iterativeImplementation);
+
+            tree.Insert(7);
+            tree.Insert(3);
+            tree.Insert(1);
+            tree.Insert(4);
+            tree.Insert(9);
+            tree.Insert(8);
+            tree.Insert(15);
+
+            tree.Traverse(TraverseDirection.Breadth, (v) => traverseResult.Add(v), iterativeImplementation);
+            var expectedResult = new int[7] { 7, 3, 9, 1, 4, 8, 15 };
+
+            CollectionAssert.AreEqual(
+                expectedResult,
+                traverseResult,
+                "Breadth traverse should return correct reult with iterativeImplementation [{0}]",
+                iterativeImplementation);
         }
     }
 }

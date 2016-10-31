@@ -1,4 +1,6 @@
-﻿namespace Algorithms.DataStructures.Tree
+﻿using System;
+
+namespace Algorithms.DataStructures.Tree
 {
     /// <summary>
     /// Tree - abstract datat type that simulates a hierarchical tree structure with a root value
@@ -38,5 +40,18 @@
         void Insert(T content);
         bool Find(T content);
         bool Remove(T content);
+        void Traverse(TraverseDirection direction, Action<T> action, bool iterativeImplementation = false);
+
+        // TODO: verificate, split by key, merge, balancing
+    }
+
+    public enum TraverseDirection
+    {
+        // Depth first:
+        Infix,
+        Prefix,
+        Postfix,
+        // Breadth first:
+        Breadth
     }
 }
