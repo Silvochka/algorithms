@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Algorithms.DataStructures.Common
+namespace Algorithms.Helpers
 {
     public static class PrimeList
     {

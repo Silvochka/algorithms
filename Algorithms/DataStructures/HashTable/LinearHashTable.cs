@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Algorithms.DataStructures.Common;
+using Algorithms.Helpers;
 
 namespace Algorithms.DataStructures.HashTable
 {

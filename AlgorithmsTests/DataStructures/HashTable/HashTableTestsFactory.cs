@@ -40,7 +40,9 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 IHashTable hashTable = Activator.CreateInstance(hashTableType) as IHashTable;
                 Assert.IsTrue(hashTable.Add(5));
 
-                Assert.IsTrue(hashTable.Contains(5));
+                Assert.IsTrue(hashTable.Contains(5),
+                    "hash table [{0}] should contains added value",
+                    hashTableType.Name);
             }
         }
 
@@ -53,7 +55,9 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 Assert.IsTrue(hashTable.Add(5));
                 hashTable.Clear();
 
-                Assert.IsTrue(hashTable.Count() == 0);
+                Assert.IsTrue(hashTable.Count() == 0,
+                    "hash table [{0}] should contains 0 elements after clearing",
+                    hashTableType.Name);
             }
         }
 
@@ -66,9 +70,18 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 Assert.IsTrue(hashTable.Add(5));
                 Assert.IsTrue(hashTable.Add(15));
                 Assert.IsTrue(hashTable.Add(14));
-                Assert.IsTrue(hashTable.Remove(15));
-                Assert.IsTrue(hashTable.Contains(5));
-                Assert.IsFalse(hashTable.Contains(15));
+
+                Assert.IsTrue(hashTable.Remove(15),
+                    "hash table [{0}] should remove existed element",
+                    hashTableType.Name);
+
+                Assert.IsTrue(hashTable.Contains(5),
+                    "hash table [{0}] should contains not removed element",
+                    hashTableType.Name);
+
+                Assert.IsFalse(hashTable.Contains(15),
+                    "hash table [{0}] should not contains removed element",
+                    hashTableType.Name);
             }
         }
 
@@ -82,9 +95,18 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 Assert.IsTrue(hashTable.Add(15));
                 Assert.IsTrue(hashTable.Add(13));
                 Assert.IsTrue(hashTable.Add(17));
-                Assert.IsTrue(hashTable.Contains(15));
-                Assert.IsTrue(hashTable.Contains(5));
-                Assert.IsTrue(hashTable.Contains(13));
+
+                Assert.IsTrue(hashTable.Contains(15),
+                    "hash table [{0}] should contains element 15 after rebuilding",
+                    hashTableType.Name);
+
+                Assert.IsTrue(hashTable.Contains(5),
+                    "hash table [{0}] should contains element 5 after rebuilding",
+                    hashTableType.Name);
+
+                Assert.IsTrue(hashTable.Contains(13),
+                    "hash table [{0}] should contains element 14 after rebuilding",
+                    hashTableType.Name);
             }
         }
 
@@ -106,7 +128,10 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
 
                 foreach (var item in hashTable)
                 {
-                    Assert.IsTrue(items.Contains(item));
+                    Assert.IsTrue(items.Contains(item),
+                        "hash table [{0}] should contains element [{1}] in enumerator",
+                        hashTableType.Name,
+                        item);
                 }
             }
         }
@@ -117,8 +142,11 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             IHashTable hashTable = new QuadraticHashTable(2);
             Assert.IsTrue(hashTable.Add(3));
             Assert.IsTrue(hashTable.Add(3));
-            Assert.IsFalse(hashTable.Add(3));
-            Assert.IsTrue(hashTable.Count() == 2);
+            Assert.IsFalse(hashTable.Add(3),
+                "quadritic hash table should not be able to add element");
+
+            Assert.IsTrue(hashTable.Count() == 2,
+                "quadritic hash table count should be 2 after not-successfull adding");
         }
 
         [Test]
@@ -127,8 +155,11 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             IHashTable hashTable = new QuadraticHashTable(2);
             Assert.IsTrue(hashTable.Add(3));
             Assert.IsTrue(hashTable.Add(3));
-            Assert.IsFalse(hashTable.Add(6));
-            Assert.IsFalse(hashTable.Contains(6));
+            Assert.IsFalse(hashTable.Add(6),
+                "quadritic hash table should not be able to add element");
+
+            Assert.IsFalse(hashTable.Contains(6),
+                "quadritic hash table should not contains not added element");
         }
 
         [Test]
@@ -137,11 +168,20 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
             IHashTable hashTable = new QuadraticHashTable(2);
             Assert.IsTrue(hashTable.Add(3));
             Assert.IsTrue(hashTable.Add(3));
-            Assert.IsFalse(hashTable.Add(6));
-            Assert.IsFalse(hashTable.Remove(6));
-            Assert.IsTrue(hashTable.Remove(3));
-            Assert.IsTrue(hashTable.Add(3));
-            Assert.IsTrue(hashTable.Count() == 2);
+            Assert.IsFalse(hashTable.Add(6),
+                "quadritic hash table should not be able to add element");
+
+            Assert.IsFalse(hashTable.Remove(6),
+                "quadritic hash table should not be able to remove not-added element");
+
+            Assert.IsTrue(hashTable.Remove(3),
+                "quadritic hash table should be able to remove existed element");
+
+            Assert.IsTrue(hashTable.Add(3),
+                "quadritic hash table should be able to add element again");
+
+            Assert.IsTrue(hashTable.Count() == 2,
+                "quadritic hash table has 2 elements after testing");
         }
     }
 }
