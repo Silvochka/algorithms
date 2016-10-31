@@ -213,5 +213,22 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
                 "Breadth traverse should return correct reult with iterativeImplementation [{0}]",
                 iterativeImplementation);
         }
+
+        public void BinarySearchTreeVerifyTest()
+        {
+            var tree = new BinarySearchTree<int>();
+
+            tree.Insert(7);
+            tree.Insert(3);
+            tree.Insert(1);
+            tree.Insert(4);
+            tree.Insert(9);
+            tree.Insert(8);
+            tree.Insert(15);
+
+            Assert.IsTrue(tree.Verify(), "Auto-generated BST should be verified successfully");
+            tree.Root.Content = 0;
+            Assert.IsFalse(tree.Verify(), "Manually broken BST should be verified not successfully");
+        }
     }
 }

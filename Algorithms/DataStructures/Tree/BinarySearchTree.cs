@@ -85,6 +85,16 @@ namespace Algorithms.DataStructures.Tree
             }
         }
 
+        public bool Verify()
+        {
+            if (this.Root == null)
+            {
+                return true;
+            }
+
+            return this.VerifyIn(this.Root);
+        }
+
         private void InsertTo(BinarySearchTreeNode<T> node, T content)
         {
             if (node.Content.CompareTo(content) > 0)
@@ -328,6 +338,25 @@ namespace Algorithms.DataStructures.Tree
                     queue.Enqueue(currentNode.Right);
                 }
             }
+        }
+
+        private bool VerifyIn(BinarySearchTreeNode<T> node)
+        {
+            if (node.HasLeft
+                && (node.CompareTo(node.Left) <= 0)
+                    || !this.VerifyIn(node.Left))
+            {
+                return false;
+            }
+
+            if (node.HasRight
+                && (node.CompareTo(node.Right) < 0)
+                    || !this.VerifyIn(node.Right))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

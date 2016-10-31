@@ -8,7 +8,7 @@ namespace Algorithms.DataStructures.Tree
     /// Contains right node which content >= this.Content
     /// </summary>
     /// <typeparam name="T">Type of content</typeparam>
-    public class BinarySearchTreeNode<T> : IComparable<T> where T : IComparable<T>
+    public class BinarySearchTreeNode<T> : IComparable<BinarySearchTreeNode<T>> where T : IComparable<T>
     {
         public T Content { get; set; }
         public BinarySearchTreeNode<T> Parent { get; set; }
@@ -40,10 +40,10 @@ namespace Algorithms.DataStructures.Tree
             get { return this.Parent != null && this.Parent.Right == this; }
         }
 
-        public int CompareTo(T other)
+        public int CompareTo(BinarySearchTreeNode<T> other)
         {
-            return this.Content != null
-                ? this.Content.CompareTo(other)
+            return this.Content != null && other != null
+                ? this.Content.CompareTo(other.Content)
                 : -1;
         }
     }

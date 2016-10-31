@@ -41,8 +41,10 @@ namespace Algorithms.DataStructures.Tree
         bool Find(T content);
         bool Remove(T content);
         void Traverse(TraverseDirection direction, Action<T> action, bool iterativeImplementation = false);
+        bool Verify();
 
-        // TODO: verificate, split by key, merge, balancing
+        // TODO: split by key, merge, balancing, get predecessor, get successor, get k element in order
+        // TODO: Degree, Path between nodes, Level, Height, Depth
     }
 
     public enum TraverseDirection
