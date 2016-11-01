@@ -357,6 +357,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(95);
             tree.Insert(70);
 
+            Assert.AreEqual(default(int), tree.GetPredecessor(5), "BST: Predecessor on not existed element should return default value");
             Assert.AreEqual(59, tree.GetPredecessor(64), "BST: Predecessor on root tree should return correct value");
             Assert.AreEqual(default(int), tree.GetPredecessor(7), "BST: Predecessor on min value should return default");
             Assert.AreEqual(7, tree.GetPredecessor(59), "BST: Predecessor on value should return correct value");
@@ -378,11 +379,37 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(95);
             tree.Insert(70);
 
+            Assert.AreEqual(default(int), tree.GetPredecessor(5), "BST: Predecessor on not existed element should return default value");
             Assert.AreEqual(64, tree.GetSuccessor(59), "BST: Succecessor on tree should return correct value");
             Assert.AreEqual(default(int), tree.GetSuccessor(95), "BST: Succecessor on max value should return default");
             Assert.AreEqual(59, tree.GetSuccessor(7), "BST: Succecessor on min value should return correct value");
             Assert.AreEqual(70, tree.GetSuccessor(64), "BST: Succecessor on root value should return correct value");
             Assert.AreEqual(95, tree.GetSuccessor(93), "BST: Succecessor on pre max value should return max value");
+        }
+
+        [Test]
+        public void BinarySearchTreeGetKElementInOrderTest()
+        {
+            var tree = new BinarySearchTree<int>();
+            Assert.AreEqual(default(int), tree.GetKElementInOrder(5), "BST: K-th element in order on empty tree should return default");
+
+            tree.Insert(64);
+            tree.Insert(7);
+            tree.Insert(93);
+            tree.Insert(59);
+            tree.Insert(73);
+            tree.Insert(95);
+            tree.Insert(70);
+
+            Assert.AreEqual(default(int), tree.GetKElementInOrder(-1), "BST: -1 element should return default");
+            Assert.AreEqual(7, tree.GetKElementInOrder(0), "BST: 0-th element should return min value");
+            Assert.AreEqual(59, tree.GetKElementInOrder(1), "BST: 1-th element should return 1-th value");
+            Assert.AreEqual(64, tree.GetKElementInOrder(2), "BST: 2-th element should return root value");
+            Assert.AreEqual(70, tree.GetKElementInOrder(3), "BST: 3-th element should return 3-th value");
+            Assert.AreEqual(73, tree.GetKElementInOrder(4), "BST: 4-th element should return 4-th value");
+            Assert.AreEqual(93, tree.GetKElementInOrder(5), "BST: 5-th element should return 5-th value");
+            Assert.AreEqual(95, tree.GetKElementInOrder(6), "BST: 6-th element should return max value");
+            Assert.AreEqual(default(int), tree.GetKElementInOrder(7), "BST: 7-th element should return default");
         }
     }
 }

@@ -254,6 +254,21 @@ namespace Algorithms.DataStructures.Tree
         }
 
         /// <summary>
+        /// Get k-th element in order
+        /// </summary>
+        /// <param name="index">Index of required element, based 0</param>
+        /// <returns>K-th element in order</returns>
+        public T GetKElementInOrder(int index)
+        {
+            if (this.Root == null || index < 0)
+            {
+                return default(T);
+            }
+
+            return this.GetKElementInOrderIn(this.Root, index);
+        }
+
+        /// <summary>
         /// Splitting current tree on 2 trees: values less than key and values >= key.
         /// </summary>
         /// <remarks>Current tree will also will be changes and will contains values >= key</remarks>
@@ -587,6 +602,39 @@ namespace Algorithms.DataStructures.Tree
             }
 
             return true;
+        }
+
+        private T GetKElementInOrderIn(BinarySearchTreeNode<T> node, int index)
+        {
+            if (node == null)
+            {
+                return default(T);
+            }
+
+            var elementsCountInLeft = this.GetCount(node.Left);
+            if (elementsCountInLeft == index)
+            {
+                return node.Content;
+            }
+
+            if (elementsCountInLeft > index)
+            {
+                return this.GetKElementInOrderIn(node.Left, index);
+            }
+
+            // if on the left less than required - search in right
+            // new index = indes - left - current node
+            return this.GetKElementInOrderIn(node.Right, index - elementsCountInLeft - 1);
+        }
+
+        private int GetCount(BinarySearchTreeNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            return 1 + this.GetCount(node.Left) + this.GetCount(node.Right);
         }
     }
 }

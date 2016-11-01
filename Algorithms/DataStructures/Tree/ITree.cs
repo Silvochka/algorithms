@@ -47,9 +47,10 @@ namespace Algorithms.DataStructures.Tree
         T GetMax();
         T GetPredecessor(T key);
         T GetSuccessor(T key);
+        T GetKElementInOrder(int index);
         ITree<T, NodeType> SplitByKey(T key);
 
-        // TODO: merge, balancing, get k element in order
+        // TODO: merge, balancing
         // TODO: Degree, Path between nodes, Level, Height, Depth
     }
 
