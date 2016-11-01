@@ -125,10 +125,10 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(15);
 
             tree.Traverse(TraverseDirection.Infix, (v) => traverseResult.Add(v), iterativeImplementation);
-            var expectedResult = new int[7] { 1, 3, 4, 7, 8, 9, 15};
+            var expectedResult = new int[7] { 1, 3, 4, 7, 8, 9, 15 };
 
             CollectionAssert.AreEqual(
-                expectedResult, 
+                expectedResult,
                 traverseResult,
                 "Infix traverse should return correct reult with iterativeImplementation [{0}]",
                 iterativeImplementation);
@@ -159,7 +159,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
 
             CollectionAssert.AreEqual(
                 expectedResult,
-                traverseResult, 
+                traverseResult,
                 "Prefix traverse should return correct reult with iterativeImplementation [{0}]",
                 iterativeImplementation);
         }
@@ -189,7 +189,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
 
             CollectionAssert.AreEqual(
                 expectedResult,
-                traverseResult, 
+                traverseResult,
                 "Postfix traverse should return correct reult with iterativeImplementation [{0}]",
                 iterativeImplementation);
         }
@@ -228,6 +228,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         public void BinarySearchTreeVerifyTest()
         {
             var tree = new BinarySearchTree<int>();
+            Assert.IsTrue(tree.Verify(), "Empty BST should be verified successfully");
 
             tree.Insert(7);
             tree.Insert(3);
@@ -246,6 +247,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         public void BinarySearchTreeGetMinTest()
         {
             var tree = new BinarySearchTree<int>();
+            Assert.IsTrue(tree.GetMin() == default(int), "BST: Min value should be calculated correctly on empty tree");
 
             tree.Insert(7);
             tree.Insert(3);
@@ -262,6 +264,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         public void BinarySearchTreeGetMaxTest()
         {
             var tree = new BinarySearchTree<int>();
+            Assert.IsTrue(tree.GetMax() == default(int), "BST: Max value should be calculated correctly on empty tree");
 
             tree.Insert(7);
             tree.Insert(3);
@@ -273,7 +276,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
 
             Assert.IsTrue(tree.GetMax() == 15, "BST: Min value should be calculated correctly");
         }
-        
+
         [Test]
         public void BinarySearchTreeSplittingTest()
         {
@@ -338,6 +341,48 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.AreEqual(40, lessMaxValuesTree.GetMax(), "BST after splitting on max value tree with less values should be empty");
             Assert.AreEqual(maxValue, tree.GetMin(), "BST after splitting greater values should has min = 19");
             Assert.AreEqual(maxValue, tree.GetMax(), "BST after splitting greater values should has max = 19");
+        }
+
+        [Test]
+        public void BinarySearchTreePredecessorTest()
+        {
+            var tree = new BinarySearchTree<int>();
+            Assert.AreEqual(default(int), tree.GetPredecessor(0), "BST: Predecessor on empty tree should return default");
+
+            tree.Insert(64);
+            tree.Insert(7);
+            tree.Insert(93);
+            tree.Insert(59);
+            tree.Insert(73);
+            tree.Insert(95);
+            tree.Insert(70);
+
+            Assert.AreEqual(59, tree.GetPredecessor(64), "BST: Predecessor on root tree should return correct value");
+            Assert.AreEqual(default(int), tree.GetPredecessor(7), "BST: Predecessor on min value should return default");
+            Assert.AreEqual(7, tree.GetPredecessor(59), "BST: Predecessor on value should return correct value");
+            Assert.AreEqual(64, tree.GetPredecessor(70), "BST: Predecessor on value should return correct value");
+            Assert.AreEqual(93, tree.GetPredecessor(95), "BST: Predecessor on max value should return correct value");
+        }
+
+        [Test]
+        public void BinarySearchTreeSucecessorTest()
+        {
+            var tree = new BinarySearchTree<int>();
+            Assert.AreEqual(default(int), tree.GetSuccessor(0), "BST: Succecessor on empty tree should return default");
+
+            tree.Insert(64);
+            tree.Insert(7);
+            tree.Insert(93);
+            tree.Insert(59);
+            tree.Insert(73);
+            tree.Insert(95);
+            tree.Insert(70);
+
+            Assert.AreEqual(64, tree.GetSuccessor(59), "BST: Succecessor on tree should return correct value");
+            Assert.AreEqual(default(int), tree.GetSuccessor(95), "BST: Succecessor on max value should return default");
+            Assert.AreEqual(59, tree.GetSuccessor(7), "BST: Succecessor on min value should return correct value");
+            Assert.AreEqual(70, tree.GetSuccessor(64), "BST: Succecessor on root value should return correct value");
+            Assert.AreEqual(95, tree.GetSuccessor(93), "BST: Succecessor on pre max value should return max value");
         }
     }
 }

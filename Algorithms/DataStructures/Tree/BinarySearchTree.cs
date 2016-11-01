@@ -168,6 +168,92 @@ namespace Algorithms.DataStructures.Tree
         }
 
         /// <summary>
+        /// Get predecessor of specified key
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <returns>Predecessor of the key</returns>
+        public T GetPredecessor(T key)
+        {
+            if (this.Root == null)
+            {
+                return default(T);
+            }
+
+            var currentNode = this.Find(key);
+            if (currentNode == null)
+            {
+                return default(T);
+            }
+
+            if (currentNode.HasLeft)                // if has left node - all less nodes are in left
+            {
+                currentNode = currentNode.Left;
+                while (currentNode.HasRight)        // and we nee to find max in left subtree
+                {
+                    currentNode = currentNode.Right;
+                }
+
+                return currentNode.Content;
+            }
+
+            // if node hasn't left subtree then go to the right while we can and then get its parent
+
+            var parent = currentNode.Parent;
+            while (parent != null && currentNode == parent.Left)
+            {
+                currentNode = parent;
+                parent = currentNode.Parent;
+            }
+
+            return parent != null
+                ? parent.Content
+                : default(T);
+        }
+
+        /// <summary>
+        /// Get Successor of specified key
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <returns>Successor of the key</returns>
+        public T GetSuccessor(T key)
+        {
+            if (this.Root == null)
+            {
+                return default(T);
+            }
+
+            var currentNode = this.Find(key);
+            if (currentNode == null)
+            {
+                return default(T);
+            }
+
+            if (currentNode.HasRight)                // if has right node - all greater nodes are in right
+            {
+                currentNode = currentNode.Right;
+                while (currentNode.HasLeft)          // and we nee to find min in right subtree
+                {
+                    currentNode = currentNode.Left;
+                }
+
+                return currentNode.Content;
+            }
+
+            // if node hasn't right subtree then go to the left while we can and then get its parent
+
+            var parent = currentNode.Parent;
+            while (parent != null && currentNode == parent.Right)
+            {
+                currentNode = parent;
+                parent = currentNode.Parent;
+            }
+
+            return parent != null
+                ? parent.Content
+                : default(T);
+        }
+
+        /// <summary>
         /// Splitting current tree on 2 trees: values less than key and values >= key.
         /// </summary>
         /// <remarks>Current tree will also will be changes and will contains values >= key</remarks>
