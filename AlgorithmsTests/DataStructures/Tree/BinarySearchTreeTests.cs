@@ -414,5 +414,63 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.AreEqual(95, tree.GetKElementInOrder(6), "BST: 6-th element should return max value");
             Assert.AreEqual(default(int), tree.GetKElementInOrder(7), "BST: 7-th element should return default");
         }
+
+        [Test]
+        public void BinarySearchTreeMergingTest()
+        {
+            ITree<int, BinarySearchTreeNode<int>> testTree = new BinarySearchTree<int>();
+            testTree.Insert(15);
+
+            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            tree.MergeWith(testTree);
+            Assert.AreEqual(15, tree.Root.Content, "Merge empty array with not-emtpy should return not-empty");
+
+            tree.Remove(15);
+            tree.Insert(10);
+            tree.Insert(6);
+            tree.Insert(16);
+            tree.Insert(3);
+            tree.Insert(8);
+
+            testTree = new BinarySearchTree<int>();
+            testTree.Insert(4);
+            tree.MergeWith(testTree);
+            Assert.IsNull(tree.Find(4), "Merge empty shoudn't add any values if new array has greater values");
+            Assert.IsTrue(tree.Verify(), "Merge should create valid search binary tree");
+
+            tree.MergeWith(null);
+            Assert.AreEqual(10, tree.Root.Content, "Merge with null shouldn't change tree");
+            Assert.IsTrue(tree.Verify(), "Merge should create valid search binary tree");
+
+            tree.MergeWith(new BinarySearchTree<int>());
+            Assert.AreEqual(10, tree.Root.Content, "Merge with empty tree shouldn't change tree");
+            Assert.IsTrue(tree.Verify(), "Merge should create valid search binary tree");
+
+            ITree<int, BinarySearchTreeNode<int>> treeToMerge = new BinarySearchTree<int>();
+            treeToMerge.Insert(25);
+            treeToMerge.Insert(23);
+            treeToMerge.Insert(35);
+            treeToMerge.Insert(19);
+            treeToMerge.Insert(27);
+            treeToMerge.Insert(40);
+            treeToMerge.Insert(37);
+            treeToMerge.Insert(45);
+
+            tree.MergeWith(treeToMerge);
+            Assert.IsNotNull(tree.Find(25), "Merge should merge values");
+            Assert.IsNotNull(tree.Find(45), "Merge should merge values");
+            Assert.IsTrue(tree.Verify(), "Merge should create valid search binary tree");
+            Assert.AreEqual(25, tree.Root.Content, "Merge with empty tree shouldn't change tree");
+
+            var leftTree = new BinarySearchTree<int>();
+            leftTree.Insert(10);
+            leftTree.Insert(6);
+
+            var rightTree = new BinarySearchTree<int>();
+            rightTree.Insert(19);
+            leftTree.MergeWith(rightTree);
+            Assert.IsNotNull(leftTree.Find(19), "Merge should merge values");
+            Assert.IsTrue(leftTree.Verify(), "Merge should create valid search binary tree");
+        }
     }
 }

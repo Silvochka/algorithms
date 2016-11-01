@@ -10,5 +10,8 @@ namespace Algorithms.DataStructures.Tree
     {
         T Content { get; set; }
         BinarySearchTreeNode<T> Parent { get; set; }
+
+        int Count { get; }
+        int Height { get; }
     }
 }

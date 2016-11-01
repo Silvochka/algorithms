@@ -68,6 +68,12 @@ namespace Algorithms.DataStructures.Tree
                 return false;
             }
 
+            if (this.Root.Content.CompareTo(content) == 0 && this.Root.IsTerminate)
+            {
+                this.Root = null;
+                return true;
+            }
+
             return this.RemoveIn(this.Root, content);
         }
 
@@ -336,6 +342,36 @@ namespace Algorithms.DataStructures.Tree
             return this.SplitByKey(key);
         }
 
+        /// <summary>
+        /// Merge 2 trees. Tree to merge should contains all values greater than current value 
+        /// </summary>
+        /// <param name="treeToMerge"></param>
+        public void MergeWith(BinarySearchTree<T> treeToMerge)
+        {
+            if (treeToMerge == null || treeToMerge.Root == null)
+            {
+                return;
+            }
+
+            if (this.Root == null)
+            {
+                this.Root = treeToMerge.Root;
+            }
+
+            // if tree to merge has values more than current tree - not merge
+            if (this.GetMax().CompareTo(treeToMerge.GetMin()) >= 0)
+            {
+                return;
+            }
+
+            this.Root = this.Merge(this.Root, treeToMerge.Root);
+        }
+
+        void ITree<T, BinarySearchTreeNode<T>>.MergeWith(ITree<T, BinarySearchTreeNode<T>> treeToMerge)
+        {
+            this.MergeWith(treeToMerge as BinarySearchTree<T>);
+        }
+
         private void InsertTo(BinarySearchTreeNode<T> node, T content)
         {
             if (node.Content.CompareTo(content) > 0)
@@ -392,7 +428,7 @@ namespace Algorithms.DataStructures.Tree
             if (node.Content.CompareTo(content) == 0)
             {
                 // if node hasn't children then just remove this node
-                if (!node.HasLeft && !node.HasRight)
+                if (node.IsTerminate)
                 {
                     if (node.IsLeftChild)
                     {
@@ -611,7 +647,7 @@ namespace Algorithms.DataStructures.Tree
                 return default(T);
             }
 
-            var elementsCountInLeft = this.GetCount(node.Left);
+            var elementsCountInLeft = node.Left?.Count ?? 0;
             if (elementsCountInLeft == index)
             {
                 return node.Content;
@@ -627,14 +663,34 @@ namespace Algorithms.DataStructures.Tree
             return this.GetKElementInOrderIn(node.Right, index - elementsCountInLeft - 1);
         }
 
-        private int GetCount(BinarySearchTreeNode<T> node)
+        private BinarySearchTreeNode<T> Merge(BinarySearchTreeNode<T> t1, BinarySearchTreeNode<T> t2)
         {
-            if (node == null)
+            if (t1 == null)
             {
-                return 0;
+                return t2;
             }
 
-            return 1 + this.GetCount(node.Left) + this.GetCount(node.Right);
+            if (t2 == null)
+            {
+                return t1;
+            }
+
+            if (t1.Height > t2.Height)
+            {
+                // height of t1 is greater so let t1.Root will be main root
+                var mergedTreeRoot = this.Merge(t1.Right, t2);
+                t1.Right = mergedTreeRoot;
+                mergedTreeRoot.Parent = t1;
+                return t1;
+            }
+            else
+            {
+                // height of t2 is greater or equals so let t2.Root will be main root
+                var mergedTreeRoot = this.Merge(t1, t2.Left);
+                t2.Left = mergedTreeRoot;
+                mergedTreeRoot.Parent = t1;
+                return t2;
+            }
         }
     }
 }
