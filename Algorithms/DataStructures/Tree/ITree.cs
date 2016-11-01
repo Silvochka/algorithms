@@ -35,13 +35,17 @@ namespace Algorithms.DataStructures.Tree
     /// Depth of node = number of edges from the root to the node
     /// Forest - set of n >= 0 disjoing trees
     /// </summary>
-    public interface ITree<T>
+    public interface ITree<T, NodeType> where T : IComparable<T>
+                                        where NodeType : ITreeNode<T>
     {
-        void Insert(T content);
-        bool Find(T content);
+        bool Insert(T content);
+        NodeType Find(T content);
         bool Remove(T content);
         void Traverse(TraverseDirection direction, Action<T> action, bool iterativeImplementation = false);
         bool Verify();
+        T GetMin();
+        T GetMax();
+        ITree<T, NodeType> SplitByKey(T key);
 
         // TODO: split by key, merge, balancing, get predecessor, get successor, get k element in order
         // TODO: Degree, Path between nodes, Level, Height, Depth

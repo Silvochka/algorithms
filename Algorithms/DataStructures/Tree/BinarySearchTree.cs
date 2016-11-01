@@ -10,7 +10,8 @@ namespace Algorithms.DataStructures.Tree
     /// Remove:   O(log n)      up to    O(n)  
     /// </summary>
     /// <typeparam name="T">Type of data</typeparam>
-    public class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
+    /// <remarks>Tree doesn't support not-unique keys</remarks>
+    public class BinarySearchTree<T> : ITree<T, BinarySearchTreeNode<T>> where T : IComparable<T>
     {
         public BinarySearchTreeNode<T> Root { get; set; }
 
@@ -18,27 +19,48 @@ namespace Algorithms.DataStructures.Tree
         {
         }
 
-        public void Insert(T content)
+        /// <summary>
+        /// Inserts conent in the tree with respecting order
+        /// </summary>
+        /// <param name="content">Content to insert</param>
+        /// <returns>True if content was inserted</returns>
+        public bool Insert(T content)
         {
             if (this.Root == null)
             {
                 this.Root = new BinarySearchTreeNode<T>(content);
-                return;
+                return true;
+            }
+
+            if (this.FindIn(this.Root, content) != null)
+            {
+                return false;
             }
 
             this.InsertTo(this.Root, content);
+            return true;
         }
 
-        public bool Find(T content)
+        /// <summary>
+        /// Determines whether tree has this content
+        /// </summary>
+        /// <param name="content">Content to search</param>
+        /// <returns>Node with this content</returns>
+        public BinarySearchTreeNode<T> Find(T content)
         {
             if (this.Root == null)
             {
-                return false;
+                return null;
             }
 
             return this.FindIn(this.Root, content);
         }
 
+        /// <summary>
+        /// Removes content from tree with respecting order
+        /// </summary>
+        /// <param name="content">Content to remove</param>
+        /// <returns>Does element was successfully removed</returns>
         public bool Remove(T content)
         {
             if (this.Root == null)
@@ -49,6 +71,12 @@ namespace Algorithms.DataStructures.Tree
             return this.RemoveIn(this.Root, content);
         }
 
+        /// <summary>
+        /// Traverse the tree
+        /// </summary>
+        /// <param name="direction">Traverse direction</param>
+        /// <param name="action">Which action should be acted on node</param>
+        /// <param name="iterativeImplementation">Should use iterative implementation or recursive</param>
         public void Traverse(TraverseDirection direction, Action<T> action, bool iterativeImplementation = false)
         {
             if (this.Root == null)
@@ -85,6 +113,10 @@ namespace Algorithms.DataStructures.Tree
             }
         }
 
+        /// <summary>
+        /// Determines whether tree respects order
+        /// </summary>
+        /// <returns>True if tree respects order</returns>
         public bool Verify()
         {
             if (this.Root == null)
@@ -93,6 +125,114 @@ namespace Algorithms.DataStructures.Tree
             }
 
             return this.VerifyIn(this.Root);
+        }
+
+        /// <summary>
+        /// Get min value
+        /// </summary>
+        /// <returns>Min value of the tree</returns>
+        public T GetMin()
+        {
+            if (this.Root == null)
+            {
+                return default(T);
+            }
+
+            var currentNode = this.Root;
+            while (currentNode.HasLeft)
+            {
+                currentNode = currentNode.Left;
+            }
+
+            return currentNode.Content;
+        }
+
+        /// <summary>
+        /// Get max value
+        /// </summary>
+        /// <returns>Max value of the tree</returns>
+        public T GetMax()
+        {
+            if (this.Root == null)
+            {
+                return default(T);
+            }
+
+            var currentNode = this.Root;
+            while (currentNode.HasRight)
+            {
+                currentNode = currentNode.Right;
+            }
+
+            return currentNode.Content;
+        }
+
+        /// <summary>
+        /// Splitting current tree on 2 trees: values less than key and values >= key.
+        /// </summary>
+        /// <remarks>Current tree will also will be changes and will contains values >= key</remarks>
+        /// <param name="key">Key to split</param>
+        /// <returns>New tree where vaues less than key. If current tree hasn't key then tree would not be splitted</returns>
+        public BinarySearchTree<T> SplitByKey(T key)
+        {
+            var splitter = this.Find(key);
+            if (splitter == null)
+            {
+                return null;
+            }
+
+            var lessValues = splitter.Left;
+            var greaterValues = splitter.Right;
+
+            while (splitter.Parent != null)
+            {
+                if (splitter.IsLeftChild) // left child - so splitter and all its children less than splitter.Parent.Content
+                {
+                    splitter = splitter.Parent;         // now splitter - its parent
+                    splitter.Left = greaterValues;      // move greater values of splitter to the parent.Left
+
+                    if (greaterValues != null)
+                    {
+                        greaterValues.Parent = splitter;
+                    }
+
+                    greaterValues = splitter;           // greater values - its parent (because splitter is left child)
+                }
+                else                   // right child - so splitter and all its children greater than splitter.Parent.Content
+                {
+                    splitter = splitter.Parent;         // now splitter - its parent
+                    splitter.Right = lessValues;        // move less values to the parent.Right because they are still greater
+                    if (lessValues != null)
+                    {
+                        lessValues.Parent = splitter;
+                    }
+
+                    lessValues = splitter;
+                }
+            }
+
+            // insert key if its required
+            if (greaterValues != null)
+            {
+                greaterValues.Parent = null;
+            }
+
+            this.Root = greaterValues;
+            this.Insert(key);
+
+            var treeWithLessValues = new BinarySearchTree<T>();
+            treeWithLessValues.Root = lessValues;
+            if (lessValues != null)
+            {
+                lessValues.Parent = null;
+            }
+
+            return treeWithLessValues;   
+        }
+
+        ITree<T, BinarySearchTreeNode<T>> ITree<T, BinarySearchTreeNode<T>>.SplitByKey(T key)
+        {
+            return this.SplitByKey(key);
         }
 
         private void InsertTo(BinarySearchTreeNode<T> node, T content)
@@ -125,20 +265,24 @@ namespace Algorithms.DataStructures.Tree
             }
         }
 
-        private bool FindIn(BinarySearchTreeNode<T> node, T content)
+        private BinarySearchTreeNode<T> FindIn(BinarySearchTreeNode<T> node, T content)
         {
             if (node.Content.CompareTo(content) == 0)
             {
-                return true;
+                return node;
             }
 
             if (node.Content.CompareTo(content) > 0)
             {
-                return node.HasLeft && this.FindIn(node.Left, content);
+                return node.HasLeft 
+                    ? this.FindIn(node.Left, content)
+                    : null;
             }
             else
             {
-                return node.HasRight && this.FindIn(node.Right, content);
+                return node.HasRight
+                    ? this.FindIn(node.Right, content)
+                    : null;
             }
         }
 
@@ -343,15 +487,15 @@ namespace Algorithms.DataStructures.Tree
         private bool VerifyIn(BinarySearchTreeNode<T> node)
         {
             if (node.HasLeft
-                && (node.CompareTo(node.Left) <= 0)
-                    || !this.VerifyIn(node.Left))
+                && (node.CompareTo(node.Left) <= 0
+                    || !this.VerifyIn(node.Left)))
             {
                 return false;
             }
 
             if (node.HasRight
-                && (node.CompareTo(node.Right) < 0)
-                    || !this.VerifyIn(node.Right))
+                && (node.CompareTo(node.Right) > 0
+                    || !this.VerifyIn(node.Right)))
             {
                 return false;
             }
