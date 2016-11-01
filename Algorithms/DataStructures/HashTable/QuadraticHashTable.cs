@@ -114,11 +114,6 @@ namespace Algorithms.DataStructures.HashTable
                     return true;
                 }
 
-                if (this.Storage[index].Content == value)
-                {
-                    return true;
-                }
-
                 if (step < this.Size)
                 {
                     step++;

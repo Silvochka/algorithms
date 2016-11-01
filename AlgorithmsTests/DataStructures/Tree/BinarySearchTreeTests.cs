@@ -241,6 +241,9 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsTrue(tree.Verify(), "Auto-generated BST should be verified successfully");
             tree.Root.Content = 0;
             Assert.IsFalse(tree.Verify(), "Manually broken BST should be verified not successfully");
+            tree.Root.Content = 7;
+            tree.Root.Right.Content = 6;
+            Assert.IsFalse(tree.Verify(), "Manually broken BST should be verified not successfully");
         }
 
         [Test]
@@ -280,7 +283,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         [Test]
         public void BinarySearchTreeSplittingTest()
         {
-            var tree = new BinarySearchTree<int>();
+            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
 
             tree.Insert(25);
             tree.Insert(10);
@@ -379,7 +382,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(95);
             tree.Insert(70);
 
-            Assert.AreEqual(default(int), tree.GetPredecessor(5), "BST: Predecessor on not existed element should return default value");
+            Assert.AreEqual(default(int), tree.GetSuccessor(5), "BST: Predecessor on not existed element should return default value");
             Assert.AreEqual(64, tree.GetSuccessor(59), "BST: Succecessor on tree should return correct value");
             Assert.AreEqual(default(int), tree.GetSuccessor(95), "BST: Succecessor on max value should return default");
             Assert.AreEqual(59, tree.GetSuccessor(7), "BST: Succecessor on min value should return correct value");

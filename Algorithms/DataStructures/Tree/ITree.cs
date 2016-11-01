@@ -38,6 +38,8 @@ namespace Algorithms.DataStructures.Tree
     public interface ITree<T, NodeType> where T : IComparable<T>
                                         where NodeType : ITreeNode<T>
     {
+        NodeType Root { get; set; }
+
         bool Insert(T content);
         NodeType Find(T content);
         bool Remove(T content);

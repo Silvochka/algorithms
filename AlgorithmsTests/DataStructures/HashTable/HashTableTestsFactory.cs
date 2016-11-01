@@ -29,6 +29,9 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 IHashTable hashTable = Activator.CreateInstance(hashTableType) as IHashTable;
 
                 Assert.IsNotNull(hashTable);
+                Assert.IsFalse(hashTable.Contains(5),
+                    "hash table [{0}] should not contains any value after creation",
+                    hashTableType.Name);
             }
         }
 
@@ -73,6 +76,10 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
 
                 Assert.IsTrue(hashTable.Remove(15),
                     "hash table [{0}] should remove existed element",
+                    hashTableType.Name);
+
+                Assert.IsFalse(hashTable.Remove(17),
+                    "hash table [{0}] should not be able to remove not existed element",
                     hashTableType.Name);
 
                 Assert.IsTrue(hashTable.Contains(5),
@@ -178,6 +185,26 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.LinkedList
                 "quadritic hash table should be able to remove existed element");
 
             Assert.IsTrue(hashTable.Add(3),
+                "quadritic hash table should be able to add element again");
+
+            Assert.IsTrue(hashTable.Count() == 2,
+                "quadritic hash table has 2 elements after testing");
+        }
+
+        [Test]
+        public void DoubleHashTableOverloadingRemoveTest()
+        {
+            IHashTable hashTable = new DoubleHashTable(2);
+            Assert.IsTrue(hashTable.Add(3));
+            Assert.IsTrue(hashTable.Add(18));
+
+            Assert.IsFalse(hashTable.Remove(16),
+                "quadritic hash table should not be able to remove not-added element");
+
+            Assert.IsTrue(hashTable.Remove(18),
+                "quadritic hash table should be able to remove existed element");
+
+            Assert.IsTrue(hashTable.Add(18),
                 "quadritic hash table should be able to add element again");
 
             Assert.IsTrue(hashTable.Count() == 2,
