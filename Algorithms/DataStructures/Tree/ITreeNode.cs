@@ -11,6 +11,8 @@ namespace Algorithms.DataStructures.Tree
         T Content { get; set; }
         BinarySearchTreeNode<T> Parent { get; set; }
 
+        bool HasParent { get; }
+        bool IsTerminate { get; }
         int Count { get; }
         int Height { get; }
         int Degree { get; }

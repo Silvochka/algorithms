@@ -518,5 +518,39 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
             Assert.AreEqual(10, tree.Root.Content, "Rotate left should move root");
         }
+
+        [Test]
+        public void BinarySearchTreeGetCommonRootTest()
+        {
+            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            tree.Insert(10);
+            tree.Insert(6);
+            tree.Insert(16);
+            tree.Insert(3);
+            tree.Insert(8);
+
+            Assert.IsNull(tree.GetCommonRoot(1, 10), "Common root of not-existed values should be null");
+            Assert.IsNull(tree.GetCommonRoot(1, 2), "Common root of not-existed values should be null");
+            Assert.AreEqual(tree.Root, tree.GetCommonRoot(10, 10), "Common root of equal values should be same node");
+            Assert.AreEqual(tree.Root, tree.GetCommonRoot(3, 16), "Common root should be found");
+            Assert.AreEqual(tree.Root.Left, tree.GetCommonRoot(3, 8), "Common root should be found");
+        }
+
+        [Test]
+        public void BinarySearchTreeGetDistanceBetweenTest()
+        {
+            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            tree.Insert(10);
+            tree.Insert(6);
+            tree.Insert(16);
+            tree.Insert(3);
+            tree.Insert(8);
+
+            Assert.AreEqual(-1, tree.DistanceBetween(1, 10), "Distance between existed and not-existed values should be -1");
+            Assert.AreEqual(-1, tree.DistanceBetween(1, 2), "Distance between not-existed values should be -1");
+            Assert.AreEqual(0, tree.DistanceBetween(10, 10), "Distance between equal values should be 0");
+            Assert.AreEqual(3, tree.DistanceBetween(3, 16), "Distance between should be calculated correctly");
+            Assert.AreEqual(2, tree.DistanceBetween(3, 8), "Distance between should be calculated correctly");
+        }
     }
 }

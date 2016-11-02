@@ -61,6 +61,14 @@ namespace Algorithms.DataStructures.Tree
         }
 
         /// <summary>
+        /// Is this node has parent
+        /// </summary>
+        public bool HasParent
+        {
+            get { return this.Parent != null; }
+        }
+
+        /// <summary>
         /// Count of node's subtree (+ current node)
         /// </summary>
         public int Count

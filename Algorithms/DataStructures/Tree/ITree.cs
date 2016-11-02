@@ -54,8 +54,8 @@ namespace Algorithms.DataStructures.Tree
         void MergeWith(ITree<T, NodeType> treeToMerge);
         void RotateLeft();
         void RotateRight();
-
-        // TODO: Path between nodes, find common parent
+        NodeType GetCommonRoot(T nodeContent1, T nodeContent2);
+        int DistanceBetween(T nodeContent1, T nodeContent2);
     }
 
     public enum TraverseDirection

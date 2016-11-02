@@ -291,7 +291,7 @@ namespace Algorithms.DataStructures.Tree
             var lessValues = splitter.Left;
             var greaterValues = splitter.Right;
 
-            while (splitter.Parent != null)
+            while (splitter.HasParent)
             {
                 if (splitter.IsLeftChild) // left child - so splitter and all its children less than splitter.Parent.Content
                 {
@@ -334,7 +334,7 @@ namespace Algorithms.DataStructures.Tree
                 lessValues.Parent = null;
             }
 
-            return treeWithLessValues;   
+            return treeWithLessValues;
         }
 
         ITree<T, BinarySearchTreeNode<T>> ITree<T, BinarySearchTreeNode<T>>.SplitByKey(T key)
@@ -427,6 +427,78 @@ namespace Algorithms.DataStructures.Tree
             oldRoot.Parent = newRoot;
         }
 
+        /// <summary>
+        /// Get common root of given nodes' content
+        /// </summary>
+        /// <param name="node1">First node content</param>
+        /// <param name="node2">Second node content</param>
+        /// <returns>Common root node</returns>
+        public BinarySearchTreeNode<T> GetCommonRoot(T nodeContent1, T nodeContent2)
+        {
+            var node1 = this.Find(nodeContent1);
+            var node2 = this.Find(nodeContent2);
+
+            if (node1 == node2)
+            {
+                return node1;
+            }
+
+            if (node1 == null || node2 == null)
+            {
+                return null;
+            }
+
+            var firstNodeParents = new List<BinarySearchTreeNode<T>>();
+            firstNodeParents.Add(node1);
+            var currentNode = node1;
+            while (currentNode.HasParent)
+            {
+                firstNodeParents.Add(currentNode.Parent);
+                currentNode = currentNode.Parent;
+            }
+
+            while (true)
+            {
+                if (firstNodeParents.Contains(node2))
+                {
+                    return node2;
+                }
+
+                node2 = node2.Parent;
+            }
+        }
+
+        /// <summary>
+        /// Calculated distance between nodes
+        /// </summary>
+        /// <param name="nodeContent1">Node 1 content</param>
+        /// <param name="nodeContent2">Node 2 content</param>
+        /// <returns>
+        /// 0 if nodes are same
+        /// -1 if some of content is not presented in this tree
+        /// >0 if distance exists
+        /// </returns>
+        public int DistanceBetween(T nodeContent1, T nodeContent2)
+        {
+            var node1 = this.Find(nodeContent1);
+            var node2 = this.Find(nodeContent2);
+
+            if (node1 == null || node2 == null)
+            {
+                return -1;
+            }
+
+            if (node1 == node2)
+            {
+                return 0;
+            }
+
+            // common root for nodes from the same tree always exists: at least tree.Root
+            var commonRoot = this.GetCommonRoot(nodeContent1, nodeContent2);
+            return this.GetDistanceFromRoot(commonRoot, node1)
+                 + this.GetDistanceFromRoot(commonRoot, node2);
+        }
+
         void ITree<T, BinarySearchTreeNode<T>>.MergeWith(ITree<T, BinarySearchTreeNode<T>> treeToMerge)
         {
             this.MergeWith(treeToMerge as BinarySearchTree<T>);
@@ -471,7 +543,7 @@ namespace Algorithms.DataStructures.Tree
 
             if (node.Content.CompareTo(content) > 0)
             {
-                return node.HasLeft 
+                return node.HasLeft
                     ? this.FindIn(node.Left, content)
                     : null;
             }
@@ -750,6 +822,23 @@ namespace Algorithms.DataStructures.Tree
                 t2.Left = mergedTreeRoot;
                 mergedTreeRoot.Parent = t1;
                 return t2;
+            }
+        }
+
+        private int GetDistanceFromRoot(BinarySearchTreeNode<T> rootNode, BinarySearchTreeNode<T> node)
+        {
+            if (node == rootNode)
+            {
+                return 0;
+            }
+
+            if (rootNode.CompareTo(node) > 0)  // go to the left
+            {
+                return 1 + this.GetDistanceFromRoot(rootNode.Left, node);
+            }
+            else
+            {
+                return 1 + this.GetDistanceFromRoot(rootNode.Right, node);
             }
         }
     }
