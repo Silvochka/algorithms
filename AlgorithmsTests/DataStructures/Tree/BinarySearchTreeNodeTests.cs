@@ -1,12 +1,12 @@
 ﻿using Algorithms.DataStructures.Tree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace AlgorithmsTests.DataStructures.Tree
 {
-    [TestClass]
     public class BinarySearchTreeNodeTests
     {
-        [TestMethod]
+        [Test]
         public void BinarySearchTreeNodeDegreeTest()
         {
             var tree = new BinarySearchTree<int>();
@@ -18,7 +18,7 @@ namespace AlgorithmsTests.DataStructures.Tree
             Assert.AreEqual(0, tree.Root.Left.Degree, "Left node should has 0 degree");
         }
 
-        [TestMethod]
+        [Test]
         public void BinarySearchTreeNodeDepthTest()
         {
             var tree = new BinarySearchTree<int>();
@@ -30,7 +30,7 @@ namespace AlgorithmsTests.DataStructures.Tree
             Assert.AreEqual(1, tree.Root.Left.Depth, "Left node should has 1 depth");
         }
 
-        [TestMethod]
+        [Test]
         public void BinarySearchTreeNodeLevelTest()
         {
             var tree = new BinarySearchTree<int>();
