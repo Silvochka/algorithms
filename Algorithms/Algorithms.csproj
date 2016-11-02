@@ -66,6 +66,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\HashTable\HashTableItem.cs" />
+    <Compile Include="DataStructures\HashTable\DoubleHashTable.cs" />
+    <Compile Include="DataStructures\HashTable\QuadraticHashTable.cs" />
+    <Compile Include="DataStructures\HashTable\LinearHashTable.cs" />
+    <Compile Include="DataStructures\HashTable\IHashTable.cs" />
+    <Compile Include="DataStructures\HashTable\HashTableWithLinkedList.cs" />
+    <Compile Include="DataStructures\Tree\ITreeNode.cs" />
+    <Compile Include="DataStructures\Tree\ITree.cs" />
+    <Compile Include="DataStructures\Tree\BinarySearchTreeNode.cs" />
+    <Compile Include="DataStructures\Tree\BinarySearchTree.cs" />
+    <Compile Include="Helpers\PrimeList.cs" />
     <Compile Include="Helpers\SortHelper.cs" />
     <Compile Include="SortAlgorithms\NonComparison\MSDRadixSorter.cs" />
     <Compile Include="SortAlgorithms\NonComparison\LSDRadixSorter.cs" />
