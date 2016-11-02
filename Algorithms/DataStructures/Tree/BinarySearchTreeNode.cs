@@ -76,6 +76,32 @@ namespace Algorithms.DataStructures.Tree
             get { return this.GetHeight(this); }
         }
 
+        /// <summary>
+        /// Degree of outgoing nodes
+        /// </summary>
+        public int Degree
+        {
+            get { return (this.HasLeft ? 1 : 0) + (this.HasRight ? 1 : 0); }
+        }
+
+        public int Depth
+        {
+            get
+            {
+                if (this.Parent == null)
+                {
+                    return 0;
+                }
+
+                return 1 + this.Parent.Depth;
+            }
+        }
+
+        public int Level
+        {
+            get { return this.Depth + 1; }
+        }
+
         private int GetCount(BinarySearchTreeNode<T> node)
         {
             if (node == null)
@@ -86,7 +112,7 @@ namespace Algorithms.DataStructures.Tree
             return 1 + this.GetCount(node.Left) + this.GetCount(node.Right);
         }
 
-        public int GetHeight(BinarySearchTreeNode<T> node)
+        private int GetHeight(BinarySearchTreeNode<T> node)
         {
             if (node.IsTerminate)
             {
@@ -103,7 +129,6 @@ namespace Algorithms.DataStructures.Tree
 
             return 1 + Math.Max(leftHeight, rightHeight);
         }
-
 
         public int CompareTo(ITreeNode<T> other)
         {

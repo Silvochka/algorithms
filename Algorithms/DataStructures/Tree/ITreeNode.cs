@@ -13,5 +13,8 @@ namespace Algorithms.DataStructures.Tree
 
         int Count { get; }
         int Height { get; }
+        int Degree { get; }
+        int Depth { get; }
+        int Level { get; }
     }
 }

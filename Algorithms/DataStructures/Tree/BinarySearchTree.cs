@@ -367,6 +367,66 @@ namespace Algorithms.DataStructures.Tree
             this.Root = this.Merge(this.Root, treeToMerge.Root);
         }
 
+        /// <summary>
+        /// Rotates tree to the left relatively the root
+        /// </summary>
+        public void RotateLeft()
+        {
+            if (this.Root == null || !this.Root.HasRight)
+            {
+                return;
+            }
+
+            var centerElements = this.Root.Right.Left;
+
+            var newRoot = this.Root.Right;
+
+            // move center elements to the old root -> right
+            this.Root.Right = centerElements;
+            if (centerElements != null)
+            {
+                centerElements.Parent = this.Root;
+            }
+
+            var oldRoot = this.Root;
+
+            // move root
+            this.Root = newRoot;
+            newRoot.Parent = null;
+            newRoot.Left = oldRoot;
+            oldRoot.Parent = newRoot;
+        }
+
+        /// <summary>
+        /// Rotates tree to the right relatively the root
+        /// </summary>
+        public void RotateRight()
+        {
+            if (this.Root == null || !this.Root.HasLeft)
+            {
+                return;
+            }
+
+            var centerElements = this.Root.Left.Right;
+
+            var newRoot = this.Root.Left;
+
+            // move center elements to the old root -> left
+            this.Root.Left = centerElements;
+            if (centerElements != null)
+            {
+                centerElements.Parent = this.Root;
+            }
+
+            var oldRoot = this.Root;
+
+            // move root
+            this.Root = newRoot;
+            newRoot.Parent = null;
+            newRoot.Right = oldRoot;
+            oldRoot.Parent = newRoot;
+        }
+
         void ITree<T, BinarySearchTreeNode<T>>.MergeWith(ITree<T, BinarySearchTreeNode<T>> treeToMerge)
         {
             this.MergeWith(treeToMerge as BinarySearchTree<T>);

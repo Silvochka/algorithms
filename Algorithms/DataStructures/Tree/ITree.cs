@@ -52,9 +52,10 @@ namespace Algorithms.DataStructures.Tree
         T GetKElementInOrder(int index);
         ITree<T, NodeType> SplitByKey(T key);
         void MergeWith(ITree<T, NodeType> treeToMerge);
+        void RotateLeft();
+        void RotateRight();
 
-        // TODO: balancing
-        // TODO: Degree, Path between nodes, Level, Depth
+        // TODO: Path between nodes, find common parent
     }
 
     public enum TraverseDirection

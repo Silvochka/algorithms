@@ -472,5 +472,51 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsNotNull(leftTree.Find(19), "Merge should merge values");
             Assert.IsTrue(leftTree.Verify(), "Merge should create valid search binary tree");
         }
+
+        [Test]
+        public void BinarySearchTreeRotateTest()
+        {
+            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            tree.RotateLeft();
+            tree.RotateLeft();
+
+            tree.Insert(10);
+            tree.Insert(6);
+            tree.Insert(16);
+            tree.Insert(3);
+            tree.Insert(8);
+
+            tree.RotateLeft();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(16, tree.Root.Content, "Rotate left should move root");
+
+            tree.RotateLeft();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(16, tree.Root.Content, "Rotate left should cannot move root");
+
+            tree.RotateRight();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(10, tree.Root.Content, "Rotate left should move root");
+
+            tree.RotateRight();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(6, tree.Root.Content, "Rotate left should move root");
+
+            tree.RotateRight();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(3, tree.Root.Content, "Rotate left should move root");
+
+            tree.RotateRight();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(3, tree.Root.Content, "Rotate left should cannot move root");
+
+            tree.RotateLeft();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(6, tree.Root.Content, "Rotate left should move root");
+
+            tree.RotateLeft();
+            Assert.IsTrue(tree.Verify(), "Rotate left should create valid search binary tree");
+            Assert.AreEqual(10, tree.Root.Content, "Rotate left should move root");
+        }
     }
 }
