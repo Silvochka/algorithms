@@ -1,4 +1,4 @@
-# Sorting algorithms [![Build Status](https://travis-ci.org/Silvochka/algorithms.svg?branch=dev)](https://travis-ci.org/Silvochka/algorithms) [![Build status](https://ci.appveyor.com/api/projects/status/i9w52t621058hwln/branch/dev?svg=true)](https://ci.appveyor.com/project/Silvochka/algorithms/branch/dev) [![Coverage Status](https://coveralls.io/repos/github/Silvochka/algorithms/badge.svg?branch=dev&bust=1)](https://coveralls.io/github/Silvochka/algorithms?branch=dev)
+# Sorting and data structure algorithms [![Build Status](https://travis-ci.org/Silvochka/algorithms.svg?branch=dev)](https://travis-ci.org/Silvochka/algorithms) [![Build status](https://ci.appveyor.com/api/projects/status/i9w52t621058hwln/branch/dev?svg=true)](https://ci.appveyor.com/project/Silvochka/algorithms/branch/dev) [![Coverage Status](https://coveralls.io/repos/github/Silvochka/algorithms/badge.svg?branch=dev&bust=1)](https://coveralls.io/github/Silvochka/algorithms?branch=dev)
 
 This repo is a C# library with implemented sorting alrogithms, structures and its algorithms.
 
