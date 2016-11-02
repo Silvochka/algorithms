@@ -1,5 +1,4 @@
 ﻿using Algorithms.DataStructures.Tree;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 
 namespace AlgorithmsTests.DataStructures.Tree
