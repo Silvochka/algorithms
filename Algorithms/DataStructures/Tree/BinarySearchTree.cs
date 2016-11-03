@@ -202,8 +202,7 @@ namespace Algorithms.DataStructures.Tree
                 return currentNode.Content;
             }
 
-            // if node hasn't left subtree then go to the right while we can and then get its parent
-
+            // if node hasn't left subtree then go up while we are on the left side and take latest parent
             var parent = currentNode.Parent;
             while (parent != null && currentNode == parent.Left)
             {
@@ -245,8 +244,7 @@ namespace Algorithms.DataStructures.Tree
                 return currentNode.Content;
             }
 
-            // if node hasn't right subtree then go to the left while we can and then get its parent
-
+            // if node hasn't right subtree then go up while we are on the right side and take latest parent
             var parent = currentNode.Parent;
             while (parent != null && currentNode == parent.Right)
             {
@@ -580,15 +578,29 @@ namespace Algorithms.DataStructures.Tree
                 {
                     if (node.HasLeft)
                     {
-                        node.Content = node.Left.Content;
-                        node.Left.Parent = null;
-                        node.Left = null;
+                        if (node.IsLeftChild)
+                        {
+                            node.Parent.Left = node.Left;
+                        }
+                        else
+                        {
+                            node.Parent.Right = node.Left;
+                        }
+
+                        node.Left.Parent = node.Parent;
                     }
                     else if (node.HasRight)
                     {
-                        node.Content = node.Right.Content;
-                        node.Right.Parent = null;
-                        node.Right = null;
+                        if (node.IsLeftChild)
+                        {
+                            node.Parent.Left = node.Right;
+                        }
+                        else
+                        {
+                            node.Parent.Right = node.Right;
+                        }
+
+                        node.Right.Parent = node.Parent;
                     }
 
                     return true;
@@ -820,7 +832,7 @@ namespace Algorithms.DataStructures.Tree
                 // height of t2 is greater or equals so let t2.Root will be main root
                 var mergedTreeRoot = this.Merge(t1, t2.Left);
                 t2.Left = mergedTreeRoot;
-                mergedTreeRoot.Parent = t1;
+                mergedTreeRoot.Parent = t2;
                 return t2;
             }
         }

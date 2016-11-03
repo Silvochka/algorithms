@@ -64,18 +64,21 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(2);
             tree.Insert(1);
             tree.Insert(4);
+            tree.Insert(-1);
 
             Assert.IsFalse(tree.Remove(20), "BST should not be able to find not-inserted element 20");
-            Assert.IsTrue(tree.Remove(1), "BST should be able to remove inserted element 1");
-            Assert.IsTrue(tree.Root.Left.Left.Left == null, "BST: element without children should be deleted");
+            Assert.IsTrue(tree.Remove(-1), "BST should be able to remove inserted element -1");
+            Assert.IsTrue(tree.Root.Left.Left.Left.Left == null, "BST: element without children should be deleted");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
 
-            tree.Insert(1);
+            tree.Insert(-1);
             Assert.IsTrue(tree.Remove(2), "BST should be able to remove inserted element 2 with 1 child");
             Assert.IsTrue(tree.Root.Left.Left.Content == 1, "BST: delelted element should has child's content");
             Assert.IsNotNull(tree.Root.Left.Left.Parent, "BST: parent of replaced element should be correct");
             Assert.IsTrue(tree.Root.Left.Left.Parent.Content == 3, "BST: parent of replaced element should be correct");
-            Assert.IsTrue(tree.Root.Left.Left.Left == null, "BST: left child of replaced element shoud not be exists");
+            Assert.IsTrue(tree.Root.Left.Left.Left != null, "BST: left child of replaced element shoud be exists");
+            Assert.IsNotNull(tree.Find(-1), "BST: subtree should be moved");
+            Assert.AreEqual(3, tree.Find(-1).Parent.Parent.Content, "BST: subtree should be moved");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
 
             tree.Insert(8);

@@ -3,10 +3,10 @@
 namespace Algorithms.DataStructures.Tree
 {
     /// <summary>
-    /// Tree - abstract datat type that simulates a hierarchical tree structure with a root value
+    /// Tree - abstract data type that simulates a hierarchical tree structure with a root value
     /// and subtrees of children  with a parent node, represented as a set of linked nodes.
     /// 
-    /// Can be defined recursively as a collection of the nodes (starting s a root node) 
+    /// Can be defined recursively as a collection of the nodes (starting as a root node) 
     /// where each node is a data structure consisting of a value together with a list of references to the nodes ("children")
     /// with the constraint that no reference is duplicated and none points to the root.
     /// 
@@ -23,7 +23,7 @@ namespace Algorithms.DataStructures.Tree
     /// Parent - converse notation of the Child
     /// Siblings - group of nodes with the same parent
     /// Descendant - node reachable by repeated proceeding from parent to child
-    /// Ascending - node reachable by repeated proceeding from child to parent
+    /// Ascendant - node reachable by repeated proceeding from child to parent
     /// Leaf (external node) - node without children
     /// Branch (internal node) - node with at least one child
     /// Degree - number of subtrees of the node
