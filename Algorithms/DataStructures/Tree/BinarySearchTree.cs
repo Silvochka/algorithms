@@ -769,6 +769,7 @@ namespace Algorithms.DataStructures.Tree
         {
             if (node.HasLeft
                 && (node.CompareTo(node.Left) <= 0
+                    || node.Left.Parent != node
                     || !this.VerifyIn(node.Left)))
             {
                 return false;
@@ -776,6 +777,7 @@ namespace Algorithms.DataStructures.Tree
 
             if (node.HasRight
                 && (node.CompareTo(node.Right) > 0
+                    || node.Right.Parent != node
                     || !this.VerifyIn(node.Right)))
             {
                 return false;

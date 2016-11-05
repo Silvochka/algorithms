@@ -105,6 +105,13 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsNotNull(tree.Root.Right.Right.Left.Left.Parent, "BST: parent reference should be correct");
             Assert.IsTrue(tree.Root.Right.Right.Left.Left.Parent.Content == 12, "BST: parent reference should be correct");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
+
+            tree.Insert(19);
+            tree.Insert(18);
+            Assert.IsTrue(tree.Remove(19), "BST should be able to remove inserted element 19 with 1 child");
+            Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
+            Assert.IsTrue(tree.Remove(16), "BST should be able to remove inserted element 16 with 1 child");
+            Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
         }
 
         [TestCase(true)]
