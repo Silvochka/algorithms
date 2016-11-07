@@ -72,6 +72,8 @@
     <Compile Include="DataStructures\HashTable\LinearHashTable.cs" />
     <Compile Include="DataStructures\HashTable\IHashTable.cs" />
     <Compile Include="DataStructures\HashTable\HashTableWithLinkedList.cs" />
+    <Compile Include="DataStructures\Tree\AVLTree.cs" />
+    <Compile Include="DataStructures\Tree\AVLTreeNode.cs" />
     <Compile Include="DataStructures\Tree\ITreeNode.cs" />
     <Compile Include="DataStructures\Tree\ITree.cs" />
     <Compile Include="DataStructures\Tree\BinarySearchTreeNode.cs" />

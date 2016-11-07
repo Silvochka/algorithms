@@ -8,7 +8,7 @@ namespace Algorithms.DataStructures.Tree
     /// Contains right node which content >= this.Content
     /// </summary>
     /// <typeparam name="T">Type of content</typeparam>
-    public class BinarySearchTreeNode<T> : ITreeNode<T> where T : IComparable<T>
+    public class BinarySearchTreeNode<T> : ITreeNode<T, BinarySearchTreeNode<T>> where T : IComparable<T>
     {
         public T Content { get; set; }
         public BinarySearchTreeNode<T> Parent { get; set; }
@@ -23,7 +23,7 @@ namespace Algorithms.DataStructures.Tree
         /// <summary>
         /// Has left child
         /// </summary>
-        public bool HasLeft
+        public virtual bool HasLeft
         {
             get { return this.Left != null; }
         }
@@ -31,7 +31,7 @@ namespace Algorithms.DataStructures.Tree
         /// <summary>
         /// Has right child
         /// </summary>
-        public bool HasRight
+        public virtual bool HasRight
         {
             get { return this.Right != null; }
         }
@@ -63,7 +63,7 @@ namespace Algorithms.DataStructures.Tree
         /// <summary>
         /// Is this node has parent
         /// </summary>
-        public bool HasParent
+        public virtual bool HasParent
         {
             get { return this.Parent != null; }
         }
@@ -73,15 +73,16 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         public int Count
         {
-            get { return 1 + this.GetCount(this.Left) + this.GetCount(this.Right); }
+            get { return 1 + (this.Left?.Count ?? 0) + (this.Right?.Count ?? 0); }
         }
 
         /// <summary>
         /// Height of the node (0 for leaf)
         /// </summary>
-        public int Height
+        public virtual int Height
         {
             get { return this.GetHeight(this); }
+            set { }
         }
 
         /// <summary>
@@ -110,16 +111,6 @@ namespace Algorithms.DataStructures.Tree
             get { return this.Depth + 1; }
         }
 
-        private int GetCount(BinarySearchTreeNode<T> node)
-        {
-            if (node == null)
-            {
-                return 0;
-            }
-
-            return 1 + this.GetCount(node.Left) + this.GetCount(node.Right);
-        }
-
         private int GetHeight(BinarySearchTreeNode<T> node)
         {
             if (node.IsTerminate)
@@ -127,18 +118,13 @@ namespace Algorithms.DataStructures.Tree
                 return 0;
             }
 
-            var leftHeight = node.HasLeft
-                ? this.GetHeight(node.Left)
-                : 0;
-
-            var rightHeight = node.HasRight
-                ? this.GetHeight(node.Right)
-                : 0;
+            var leftHeight = node.Left?.Height ?? 0;
+            var rightHeight = node.Right?.Height ?? 0;
 
             return 1 + Math.Max(leftHeight, rightHeight);
         }
 
-        public int CompareTo(ITreeNode<T> other)
+        public int CompareTo(ITreeNode<T, BinarySearchTreeNode<T>> other)
         {
             return this.Content != null && other != null
                 ? this.Content.CompareTo(other.Content)

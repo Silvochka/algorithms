@@ -11,7 +11,13 @@ namespace Algorithms.DataStructures.Tree
     /// </summary>
     /// <typeparam name="T">Type of data</typeparam>
     /// <remarks>Tree doesn't support not-unique keys</remarks>
-    public class BinarySearchTree<T> : ITree<T, BinarySearchTreeNode<T>> where T : IComparable<T>
+    public class BinarySearchTree<T> : BinarySearchTree<T, BinarySearchTree<T>> where T : IComparable<T>
+    {
+    }
+
+    public class BinarySearchTree<T, TreeType> : ITree<T, BinarySearchTreeNode<T>, TreeType>
+        where T : IComparable<T>
+        where TreeType : BinarySearchTree<T, TreeType>
     {
         public BinarySearchTreeNode<T> Root { get; set; }
 
@@ -24,7 +30,7 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         /// <param name="content">Content to insert</param>
         /// <returns>True if content was inserted</returns>
-        public bool Insert(T content)
+        public virtual bool Insert(T content)
         {
             if (this.Root == null)
             {
@@ -37,7 +43,7 @@ namespace Algorithms.DataStructures.Tree
                 return false;
             }
 
-            this.InsertTo(this.Root, content);
+            this.InsertNodeTo(this.Root, new BinarySearchTreeNode<T>(content));
             return true;
         }
 
@@ -74,7 +80,14 @@ namespace Algorithms.DataStructures.Tree
                 return true;
             }
 
-            return this.RemoveIn(this.Root, content);
+            var nodeToRemove = this.Find(content);
+            if (nodeToRemove == null)
+            {
+                return false;
+            }
+
+            this.Remove(nodeToRemove);
+            return true;
         }
 
         /// <summary>
@@ -178,17 +191,17 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         /// <param name="key">Key</param>
         /// <returns>Predecessor of the key</returns>
-        public T GetPredecessor(T key)
+        public BinarySearchTreeNode<T> GetPredecessor(T key)
         {
             if (this.Root == null)
             {
-                return default(T);
+                return null;
             }
 
             var currentNode = this.Find(key);
             if (currentNode == null)
             {
-                return default(T);
+                return null;
             }
 
             if (currentNode.HasLeft)                // if has left node - all less nodes are in left
@@ -199,7 +212,7 @@ namespace Algorithms.DataStructures.Tree
                     currentNode = currentNode.Right;
                 }
 
-                return currentNode.Content;
+                return currentNode;
             }
 
             // if node hasn't left subtree then go up while we are on the left side and take latest parent
@@ -210,9 +223,7 @@ namespace Algorithms.DataStructures.Tree
                 parent = currentNode.Parent;
             }
 
-            return parent != null
-                ? parent.Content
-                : default(T);
+            return parent ?? null;
         }
 
         /// <summary>
@@ -220,17 +231,17 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         /// <param name="key">Key</param>
         /// <returns>Successor of the key</returns>
-        public T GetSuccessor(T key)
+        public BinarySearchTreeNode<T> GetSuccessor(T key)
         {
             if (this.Root == null)
             {
-                return default(T);
+                return null;
             }
 
             var currentNode = this.Find(key);
             if (currentNode == null)
             {
-                return default(T);
+                return null;
             }
 
             if (currentNode.HasRight)                // if has right node - all greater nodes are in right
@@ -241,7 +252,7 @@ namespace Algorithms.DataStructures.Tree
                     currentNode = currentNode.Left;
                 }
 
-                return currentNode.Content;
+                return currentNode;
             }
 
             // if node hasn't right subtree then go up while we are on the right side and take latest parent
@@ -252,9 +263,7 @@ namespace Algorithms.DataStructures.Tree
                 parent = currentNode.Parent;
             }
 
-            return parent != null
-                ? parent.Content
-                : default(T);
+            return parent ?? null;
         }
 
         /// <summary>
@@ -278,7 +287,7 @@ namespace Algorithms.DataStructures.Tree
         /// <remarks>Current tree will also will be changes and will contains values >= key</remarks>
         /// <param name="key">Key to split</param>
         /// <returns>New tree where vaues less than key. If current tree hasn't key then tree would not be splitted</returns>
-        public BinarySearchTree<T> SplitByKey(T key)
+        public virtual TreeType SplitByKey(T key)
         {
             var splitter = this.Find(key);
             if (splitter == null)
@@ -332,19 +341,14 @@ namespace Algorithms.DataStructures.Tree
                 lessValues.Parent = null;
             }
 
-            return treeWithLessValues;
-        }
-
-        ITree<T, BinarySearchTreeNode<T>> ITree<T, BinarySearchTreeNode<T>>.SplitByKey(T key)
-        {
-            return this.SplitByKey(key);
+            return treeWithLessValues as TreeType;
         }
 
         /// <summary>
         /// Merge 2 trees. Tree to merge should contains all values greater than current value 
         /// </summary>
         /// <param name="treeToMerge"></param>
-        public void MergeWith(BinarySearchTree<T> treeToMerge)
+        public virtual void MergeWith(TreeType treeToMerge)
         {
             if (treeToMerge == null || treeToMerge.Root == null)
             {
@@ -368,61 +372,17 @@ namespace Algorithms.DataStructures.Tree
         /// <summary>
         /// Rotates tree to the left relatively the root
         /// </summary>
-        public void RotateLeft()
+        public virtual void RotateLeft()
         {
-            if (this.Root == null || !this.Root.HasRight)
-            {
-                return;
-            }
-
-            var centerElements = this.Root.Right.Left;
-
-            var newRoot = this.Root.Right;
-
-            // move center elements to the old root -> right
-            this.Root.Right = centerElements;
-            if (centerElements != null)
-            {
-                centerElements.Parent = this.Root;
-            }
-
-            var oldRoot = this.Root;
-
-            // move root
-            this.Root = newRoot;
-            newRoot.Parent = null;
-            newRoot.Left = oldRoot;
-            oldRoot.Parent = newRoot;
+            this.Root = this.RotateLeft(this.Root);
         }
 
         /// <summary>
         /// Rotates tree to the right relatively the root
         /// </summary>
-        public void RotateRight()
+        public virtual void RotateRight()
         {
-            if (this.Root == null || !this.Root.HasLeft)
-            {
-                return;
-            }
-
-            var centerElements = this.Root.Left.Right;
-
-            var newRoot = this.Root.Left;
-
-            // move center elements to the old root -> left
-            this.Root.Left = centerElements;
-            if (centerElements != null)
-            {
-                centerElements.Parent = this.Root;
-            }
-
-            var oldRoot = this.Root;
-
-            // move root
-            this.Root = newRoot;
-            newRoot.Parent = null;
-            newRoot.Right = oldRoot;
-            oldRoot.Parent = newRoot;
+            this.Root = this.RotateRight(this.Root);
         }
 
         /// <summary>
@@ -497,42 +457,39 @@ namespace Algorithms.DataStructures.Tree
                  + this.GetDistanceFromRoot(commonRoot, node2);
         }
 
-        void ITree<T, BinarySearchTreeNode<T>>.MergeWith(ITree<T, BinarySearchTreeNode<T>> treeToMerge)
+        protected void InsertNodeTo(BinarySearchTreeNode<T> node, BinarySearchTreeNode<T> nodeToInsert)
         {
-            this.MergeWith(treeToMerge as BinarySearchTree<T>);
-        }
-
-        private void InsertTo(BinarySearchTreeNode<T> node, T content)
-        {
-            if (node.Content.CompareTo(content) > 0)
+            if (node.CompareTo(nodeToInsert) > 0)
             {
                 if (node.HasLeft)
                 {
-                    this.InsertTo(node.Left, content);
+                    this.InsertNodeTo(node.Left, nodeToInsert);
                     return;
                 }
                 else
                 {
-                    node.Left = new BinarySearchTreeNode<T>(content);
+                    node.Left = nodeToInsert;
                     node.Left.Parent = node;
+                    return;
                 }
             }
             else
             {
                 if (node.HasRight)
                 {
-                    this.InsertTo(node.Right, content);
+                    this.InsertNodeTo(node.Right, nodeToInsert);
                     return;
                 }
                 else
                 {
-                    node.Right = new BinarySearchTreeNode<T>(content);
+                    node.Right = nodeToInsert;
                     node.Right.Parent = node;
+                    return;
                 }
             }
         }
 
-        private BinarySearchTreeNode<T> FindIn(BinarySearchTreeNode<T> node, T content)
+        protected BinarySearchTreeNode<T> FindIn(BinarySearchTreeNode<T> node, T content)
         {
             if (node.Content.CompareTo(content) == 0)
             {
@@ -553,89 +510,172 @@ namespace Algorithms.DataStructures.Tree
             }
         }
 
-        private bool RemoveIn(BinarySearchTreeNode<T> node, T content)
+        protected BinarySearchTreeNode<T> RotateLeft(BinarySearchTreeNode<T> node)
         {
-            if (node.Content.CompareTo(content) == 0)
+            if (node == null || !node.HasRight)
             {
-                // if node hasn't children then just remove this node
-                if (node.IsTerminate)
+                return node;
+            }
+
+            var centerElements = node.Right.Left;
+
+            var newPivot = node.Right;
+
+            // move center elements to the old pivot -> right
+            node.Right = centerElements;
+            if (centerElements != null)
+            {
+                centerElements.Parent = node;
+            }
+
+            var oldPivot = node;
+
+            // move pivot
+            newPivot.Parent = node.Parent;
+            newPivot.Left = oldPivot;
+            if (node.IsLeftChild)
+            {
+                newPivot.Parent.Left = newPivot;
+            }
+
+            if (node.IsRightChild)
+            {
+                newPivot.Parent.Right = newPivot;
+            }
+
+            oldPivot.Parent = newPivot;
+
+            return newPivot;
+        }
+
+        protected BinarySearchTreeNode<T> RotateRight(BinarySearchTreeNode<T> node)
+        {
+            if (node == null || !node.HasLeft)
+            {
+                return node;
+            }
+
+            var centerElements = node.Left.Right;
+
+            var newPivot = node.Left;
+
+            // move center elements to the old pivot -> left
+            node.Left = centerElements;
+            if (centerElements != null)
+            {
+                centerElements.Parent = node;
+            }
+
+            var oldPivot = node;
+
+            // move pivot
+            newPivot.Parent = node.Parent;
+            newPivot.Right = oldPivot;
+            if (node.IsLeftChild)
+            {
+                newPivot.Parent.Left = newPivot;
+            }
+
+            if (node.IsRightChild)
+            {
+                newPivot.Parent.Right = newPivot;
+            }
+
+            oldPivot.Parent = newPivot;
+
+            return newPivot;
+        }
+
+        protected virtual void Remove(BinarySearchTreeNode<T> node)
+        {
+            // if node hasn't children then just remove this node
+            if (node.IsTerminate)
+            {
+                if (node.IsLeftChild)
+                {
+                    node.Parent.Left = null;
+                }
+                else if (node.IsRightChild)
+                {
+                    node.Parent.Right = null;
+                }
+
+                node.Parent = null;
+                return;
+            }
+
+            // if node has only 1 child then replace node by child
+            if (node.HasLeft ^ node.HasRight)
+            {
+                if (node.HasLeft)
                 {
                     if (node.IsLeftChild)
                     {
-                        node.Parent.Left = null;
+                        node.Parent.Left = node.Left;
                     }
-                    else if (node.IsRightChild)
+                    else
                     {
-                        node.Parent.Right = null;
+                        node.Parent.Right = node.Left;
                     }
 
-                    node.Parent = null;
-                    return true;
+                    node.Left.Parent = node.Parent;
                 }
-
-                // if node has only 1 child then replace node by child
-                if (node.HasLeft ^ node.HasRight)
+                else if (node.HasRight)
                 {
-                    if (node.HasLeft)
+                    if (node.IsLeftChild)
                     {
-                        if (node.IsLeftChild)
-                        {
-                            node.Parent.Left = node.Left;
-                        }
-                        else
-                        {
-                            node.Parent.Right = node.Left;
-                        }
-
-                        node.Left.Parent = node.Parent;
+                        node.Parent.Left = node.Right;
                     }
-                    else if (node.HasRight)
+                    else
                     {
-                        if (node.IsLeftChild)
-                        {
-                            node.Parent.Left = node.Right;
-                        }
-                        else
-                        {
-                            node.Parent.Right = node.Right;
-                        }
-
-                        node.Right.Parent = node.Parent;
+                        node.Parent.Right = node.Right;
                     }
 
-                    return true;
+                    node.Right.Parent = node.Parent;
                 }
 
-                // if node has both childs and right child hasn't left subtree
-                if (!node.Right.HasLeft)
-                {
-                    node.Content = node.Right.Content;
-                    node.Right = node.Right.Right;
-                    node.Right.Parent = node;
-                }
-                else // node has both childs and right child has both childs
-                {
-                    var mostLeft = node.Right.Left;
-                    while (mostLeft.HasLeft)
-                    {
-                        mostLeft = mostLeft.Left;
-                    }
-
-                    node.Content = mostLeft.Content;
-                    this.RemoveIn(mostLeft, mostLeft.Content);
-                }
-
-                return true;
+                return;
             }
 
-            if (node.Content.CompareTo(content) > 0)
+            // if node has both childs and right child hasn't left subtree
+            if (!node.Right.HasLeft)
             {
-                return node.HasLeft && this.RemoveIn(node.Left, content);
+                node.Content = node.Right.Content;
+                node.Right = node.Right.Right;
+                node.Right.Parent = node;
             }
-            else
+            else // node has both childs and right child has both childs
             {
-                return node.HasRight && this.RemoveIn(node.Right, content);
+                var mostLeft = node.Right.Left;
+                while (mostLeft.HasLeft)
+                {
+                    mostLeft = mostLeft.Left;
+                }
+
+                node.Content = mostLeft.Content;
+                this.Remove(mostLeft);
             }
+        }
+
+        protected virtual bool VerifyIn(BinarySearchTreeNode<T> node)
+        {
+            if (node.HasLeft
+                && (node.CompareTo(node.Left) <= 0
+                    || node.Left.Parent != node
+                    || !this.VerifyIn(node.Left)))
+            {
+                return false;
+            }
+
+            if (node.HasRight
+                && (node.CompareTo(node.Right) > 0
+                    || node.Right.Parent != node
+                    || !this.VerifyIn(node.Right)))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void TraverseIn(BinarySearchTreeNode<T> node, TraverseDirection direction, Action<T> action)
@@ -763,27 +803,6 @@ namespace Algorithms.DataStructures.Tree
                     queue.Enqueue(currentNode.Right);
                 }
             }
-        }
-
-        private bool VerifyIn(BinarySearchTreeNode<T> node)
-        {
-            if (node.HasLeft
-                && (node.CompareTo(node.Left) <= 0
-                    || node.Left.Parent != node
-                    || !this.VerifyIn(node.Left)))
-            {
-                return false;
-            }
-
-            if (node.HasRight
-                && (node.CompareTo(node.Right) > 0
-                    || node.Right.Parent != node
-                    || !this.VerifyIn(node.Right)))
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private T GetKElementInOrderIn(BinarySearchTreeNode<T> node, int index)
