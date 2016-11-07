@@ -64,18 +64,21 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(2);
             tree.Insert(1);
             tree.Insert(4);
+            tree.Insert(-1);
 
             Assert.IsFalse(tree.Remove(20), "BST should not be able to find not-inserted element 20");
-            Assert.IsTrue(tree.Remove(1), "BST should be able to remove inserted element 1");
-            Assert.IsTrue(tree.Root.Left.Left.Left == null, "BST: element without children should be deleted");
+            Assert.IsTrue(tree.Remove(-1), "BST should be able to remove inserted element -1");
+            Assert.IsTrue(tree.Root.Left.Left.Left.Left == null, "BST: element without children should be deleted");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
 
-            tree.Insert(1);
+            tree.Insert(-1);
             Assert.IsTrue(tree.Remove(2), "BST should be able to remove inserted element 2 with 1 child");
             Assert.IsTrue(tree.Root.Left.Left.Content == 1, "BST: delelted element should has child's content");
             Assert.IsNotNull(tree.Root.Left.Left.Parent, "BST: parent of replaced element should be correct");
             Assert.IsTrue(tree.Root.Left.Left.Parent.Content == 3, "BST: parent of replaced element should be correct");
-            Assert.IsTrue(tree.Root.Left.Left.Left == null, "BST: left child of replaced element shoud not be exists");
+            Assert.IsTrue(tree.Root.Left.Left.Left != null, "BST: left child of replaced element shoud be exists");
+            Assert.IsNotNull(tree.Find(-1), "BST: subtree should be moved");
+            Assert.AreEqual(3, tree.Find(-1).Parent.Parent.Content, "BST: subtree should be moved");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
 
             tree.Insert(8);
@@ -102,6 +105,13 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.IsNotNull(tree.Root.Right.Right.Left.Left.Parent, "BST: parent reference should be correct");
             Assert.IsTrue(tree.Root.Right.Right.Left.Left.Parent.Content == 12, "BST: parent reference should be correct");
             Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
+
+            tree.Insert(19);
+            tree.Insert(18);
+            Assert.IsTrue(tree.Remove(19), "BST should be able to remove inserted element 19 with 1 child");
+            Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
+            Assert.IsTrue(tree.Remove(16), "BST should be able to remove inserted element 16 with 1 child");
+            Assert.IsTrue(tree.Verify(), "BST after removing value should be verified successfully");
         }
 
         [TestCase(true)]
@@ -116,8 +126,8 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
                 "Infix traverse on empty tree should be empty with iterativeImplementation [{0}]",
                 iterativeImplementation);
 
-            tree.Insert(7);
             tree.Insert(3);
+            tree.Insert(7);
             tree.Insert(1);
             tree.Insert(4);
             tree.Insert(9);
@@ -146,8 +156,8 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
                 "Prefix traverse on empty tree should be empty with iterativeImplementation [{0}]",
                 iterativeImplementation);
 
-            tree.Insert(7);
             tree.Insert(3);
+            tree.Insert(7);
             tree.Insert(1);
             tree.Insert(4);
             tree.Insert(9);
@@ -155,7 +165,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(15);
 
             tree.Traverse(TraverseDirection.Prefix, (v) => traverseResult.Add(v), iterativeImplementation);
-            var expectedResult = new int[7] { 7, 3, 1, 4, 9, 8, 15 };
+            var expectedResult = new int[7] { 3, 1, 7, 4, 9, 8, 15 };
 
             CollectionAssert.AreEqual(
                 expectedResult,
@@ -176,8 +186,8 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
                 "Postfix traverse on empty tree should be empty with iterativeImplementation [{0}]",
                 iterativeImplementation);
 
-            tree.Insert(7);
             tree.Insert(3);
+            tree.Insert(7);
             tree.Insert(1);
             tree.Insert(4);
             tree.Insert(9);
@@ -185,7 +195,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(15);
 
             tree.Traverse(TraverseDirection.Postfix, (v) => traverseResult.Add(v), iterativeImplementation);
-            var expectedResult = new int[7] { 1, 4, 3, 8, 15, 9, 7 };
+            var expectedResult = new int[7] { 1, 4, 8, 15, 9, 7, 3 };
 
             CollectionAssert.AreEqual(
                 expectedResult,
@@ -206,8 +216,8 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
                 "Breadth traverse on empty tree should be empty with iterativeImplementation [{0}]",
                 iterativeImplementation);
 
-            tree.Insert(7);
             tree.Insert(3);
+            tree.Insert(7);
             tree.Insert(1);
             tree.Insert(4);
             tree.Insert(9);
@@ -215,7 +225,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(15);
 
             tree.Traverse(TraverseDirection.Breadth, (v) => traverseResult.Add(v), iterativeImplementation);
-            var expectedResult = new int[7] { 7, 3, 9, 1, 4, 8, 15 };
+            var expectedResult = new int[7] { 3, 1, 7, 4, 9, 8, 15 };
 
             CollectionAssert.AreEqual(
                 expectedResult,
@@ -283,7 +293,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         [Test]
         public void BinarySearchTreeSplittingTest()
         {
-            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>();
 
             tree.Insert(25);
             tree.Insert(10);
@@ -350,7 +360,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         public void BinarySearchTreePredecessorTest()
         {
             var tree = new BinarySearchTree<int>();
-            Assert.AreEqual(default(int), tree.GetPredecessor(0), "BST: Predecessor on empty tree should return default");
+            Assert.AreEqual(null, tree.GetPredecessor(0), "BST: Predecessor on empty tree should return default");
 
             tree.Insert(64);
             tree.Insert(7);
@@ -360,19 +370,19 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(95);
             tree.Insert(70);
 
-            Assert.AreEqual(default(int), tree.GetPredecessor(5), "BST: Predecessor on not existed element should return default value");
-            Assert.AreEqual(59, tree.GetPredecessor(64), "BST: Predecessor on root tree should return correct value");
-            Assert.AreEqual(default(int), tree.GetPredecessor(7), "BST: Predecessor on min value should return default");
-            Assert.AreEqual(7, tree.GetPredecessor(59), "BST: Predecessor on value should return correct value");
-            Assert.AreEqual(64, tree.GetPredecessor(70), "BST: Predecessor on value should return correct value");
-            Assert.AreEqual(93, tree.GetPredecessor(95), "BST: Predecessor on max value should return correct value");
+            Assert.AreEqual(null, tree.GetPredecessor(5), "BST: Predecessor on not existed element should return default value");
+            Assert.AreEqual(59, tree.GetPredecessor(64).Content, "BST: Predecessor on root tree should return correct value");
+            Assert.AreEqual(null, tree.GetPredecessor(7), "BST: Predecessor on min value should return default");
+            Assert.AreEqual(7, tree.GetPredecessor(59).Content, "BST: Predecessor on value should return correct value");
+            Assert.AreEqual(64, tree.GetPredecessor(70).Content, "BST: Predecessor on value should return correct value");
+            Assert.AreEqual(93, tree.GetPredecessor(95).Content, "BST: Predecessor on max value should return correct value");
         }
 
         [Test]
         public void BinarySearchTreeSucecessorTest()
         {
             var tree = new BinarySearchTree<int>();
-            Assert.AreEqual(default(int), tree.GetSuccessor(0), "BST: Succecessor on empty tree should return default");
+            Assert.AreEqual(null, tree.GetSuccessor(0), "BST: Succecessor on empty tree should return default");
 
             tree.Insert(64);
             tree.Insert(7);
@@ -382,12 +392,12 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             tree.Insert(95);
             tree.Insert(70);
 
-            Assert.AreEqual(default(int), tree.GetSuccessor(5), "BST: Predecessor on not existed element should return default value");
-            Assert.AreEqual(64, tree.GetSuccessor(59), "BST: Succecessor on tree should return correct value");
-            Assert.AreEqual(default(int), tree.GetSuccessor(95), "BST: Succecessor on max value should return default");
-            Assert.AreEqual(59, tree.GetSuccessor(7), "BST: Succecessor on min value should return correct value");
-            Assert.AreEqual(70, tree.GetSuccessor(64), "BST: Succecessor on root value should return correct value");
-            Assert.AreEqual(95, tree.GetSuccessor(93), "BST: Succecessor on pre max value should return max value");
+            Assert.AreEqual(null, tree.GetSuccessor(5), "BST: Predecessor on not existed element should return default value");
+            Assert.AreEqual(64, tree.GetSuccessor(59).Content, "BST: Succecessor on tree should return correct value");
+            Assert.AreEqual(null, tree.GetSuccessor(95), "BST: Succecessor on max value should return default");
+            Assert.AreEqual(59, tree.GetSuccessor(7).Content, "BST: Succecessor on min value should return correct value");
+            Assert.AreEqual(70, tree.GetSuccessor(64).Content, "BST: Succecessor on root value should return correct value");
+            Assert.AreEqual(95, tree.GetSuccessor(93).Content, "BST: Succecessor on pre max value should return max value");
         }
 
         [Test]
@@ -418,10 +428,10 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         [Test]
         public void BinarySearchTreeMergingTest()
         {
-            ITree<int, BinarySearchTreeNode<int>> testTree = new BinarySearchTree<int>();
+            var testTree = new BinarySearchTree<int>();
             testTree.Insert(15);
 
-            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>();
             tree.MergeWith(testTree);
             Assert.AreEqual(15, tree.Root.Content, "Merge empty array with not-emtpy should return not-empty");
 
@@ -446,7 +456,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.AreEqual(10, tree.Root.Content, "Merge with empty tree shouldn't change tree");
             Assert.IsTrue(tree.Verify(), "Merge should create valid search binary tree");
 
-            ITree<int, BinarySearchTreeNode<int>> treeToMerge = new BinarySearchTree<int>();
+            var treeToMerge = new BinarySearchTree<int>();
             treeToMerge.Insert(25);
             treeToMerge.Insert(23);
             treeToMerge.Insert(35);
@@ -476,7 +486,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         [Test]
         public void BinarySearchTreeRotateTest()
         {
-            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>();
             tree.RotateLeft();
             tree.RotateLeft();
 
@@ -522,26 +532,26 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
         [Test]
         public void BinarySearchTreeGetCommonRootTest()
         {
-            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
-            tree.Insert(10);
+            var tree = new BinarySearchTree<int>();
             tree.Insert(6);
+            tree.Insert(10);
             tree.Insert(16);
             tree.Insert(3);
             tree.Insert(8);
 
             Assert.IsNull(tree.GetCommonRoot(1, 10), "Common root of not-existed values should be null");
             Assert.IsNull(tree.GetCommonRoot(1, 2), "Common root of not-existed values should be null");
-            Assert.AreEqual(tree.Root, tree.GetCommonRoot(10, 10), "Common root of equal values should be same node");
+            Assert.AreEqual(tree.Root.Left, tree.GetCommonRoot(3, 3), "Common root of equal values should be same node");
             Assert.AreEqual(tree.Root, tree.GetCommonRoot(3, 16), "Common root should be found");
-            Assert.AreEqual(tree.Root.Left, tree.GetCommonRoot(3, 8), "Common root should be found");
+            Assert.AreEqual(tree.Root.Right, tree.GetCommonRoot(16, 8), "Common root should be found");
         }
 
         [Test]
         public void BinarySearchTreeGetDistanceBetweenTest()
         {
-            ITree<int, BinarySearchTreeNode<int>> tree = new BinarySearchTree<int>();
-            tree.Insert(10);
+            var tree = new BinarySearchTree<int>();
             tree.Insert(6);
+            tree.Insert(10);
             tree.Insert(16);
             tree.Insert(3);
             tree.Insert(8);
@@ -550,7 +560,7 @@ namespace AlgorithmsTests.SortAlgorithms.DataStructures.Tree
             Assert.AreEqual(-1, tree.DistanceBetween(1, 2), "Distance between not-existed values should be -1");
             Assert.AreEqual(0, tree.DistanceBetween(10, 10), "Distance between equal values should be 0");
             Assert.AreEqual(3, tree.DistanceBetween(3, 16), "Distance between should be calculated correctly");
-            Assert.AreEqual(2, tree.DistanceBetween(3, 8), "Distance between should be calculated correctly");
+            Assert.AreEqual(3, tree.DistanceBetween(3, 8), "Distance between should be calculated correctly");
         }
     }
 }

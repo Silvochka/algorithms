@@ -40,5 +40,19 @@ namespace AlgorithmsTests.DataStructures.Tree
             Assert.AreEqual(1, tree.Root.Level, "Root node should has 1 level");
             Assert.AreEqual(2, tree.Root.Left.Level, "Left node should has 2 level");
         }
+
+        [Test]
+        public void BinarySearchTreeNodeHeightTest()
+        {
+            var tree = new BinarySearchTree<int>();
+            tree.Insert(5);
+            tree.Insert(4);
+            tree.Insert(6);
+
+            Assert.AreEqual(1, tree.Root.Height, "Root node should has 1 height");
+            tree.Root.Height = 4;
+
+            Assert.AreEqual(1, tree.Root.Height, "Root node should not changed manually");
+        }
     }
 }

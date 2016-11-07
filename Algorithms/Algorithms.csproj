@@ -77,6 +77,8 @@
     <Compile Include="DataStructures\Tree\BinarySearchTreeNode.cs" />
     <Compile Include="DataStructures\Tree\BinarySearchTree.cs" />
     <Compile Include="Helpers\PrimeList.cs" />
+    <Compile Include="DataStructures\Tree\AVLTree.cs" />
+    <Compile Include="DataStructures\Tree\AVLTreeNode.cs" />
     <Compile Include="Helpers\SortHelper.cs" />
     <Compile Include="SortAlgorithms\NonComparison\MSDRadixSorter.cs" />
     <Compile Include="SortAlgorithms\NonComparison\LSDRadixSorter.cs" />
