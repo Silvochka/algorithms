@@ -78,6 +78,7 @@
     <Compile Include="DataStructures\Tree\BinarySearchTreeTests.cs" />
     <Compile Include="DataStructures\Tree\BinarySearchTreeNodeTests.cs" />
     <Compile Include="DataStructures\Tree\AVLTreeTests.cs" />
+    <Compile Include="DataStructures\Tree\RedBlackTreeTests.cs" />
     <Compile Include="HelperTests\PrimeListTests.cs" />
     <Compile Include="SortAlgorithms\SorterTestsFactory.cs" />
     <Compile Include="SortAlgorithms\SorterTestsHelper.cs" />

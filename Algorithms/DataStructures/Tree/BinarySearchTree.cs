@@ -374,7 +374,7 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         public virtual void RotateLeft()
         {
-            this.Root = this.RotateLeft(this.Root);
+            this.RotateLeft(this.Root);
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace Algorithms.DataStructures.Tree
         /// </summary>
         public virtual void RotateRight()
         {
-            this.Root = this.RotateRight(this.Root);
+            this.RotateRight(this.Root);
         }
 
         /// <summary>
@@ -545,6 +545,11 @@ namespace Algorithms.DataStructures.Tree
 
             oldPivot.Parent = newPivot;
 
+            if (node == this.Root)
+            {
+                this.Root = newPivot;
+            }
+
             return newPivot;
         }
 
@@ -583,6 +588,11 @@ namespace Algorithms.DataStructures.Tree
 
             oldPivot.Parent = newPivot;
 
+            if (node == this.Root)
+            {
+                this.Root = newPivot;
+            }
+
             return newPivot;
         }
 
@@ -591,16 +601,7 @@ namespace Algorithms.DataStructures.Tree
             // if node hasn't children then just remove this node
             if (node.IsTerminate)
             {
-                if (node.IsLeftChild)
-                {
-                    node.Parent.Left = null;
-                }
-                else if (node.IsRightChild)
-                {
-                    node.Parent.Right = null;
-                }
-
-                node.Parent = null;
+                this.RemoveLeaf(node);
                 return;
             }
 
@@ -873,6 +874,20 @@ namespace Algorithms.DataStructures.Tree
             {
                 return 1 + this.GetDistanceFromRoot(rootNode.Right, node);
             }
+        }
+
+        protected void RemoveLeaf(BinarySearchTreeNode<T> node)
+        {
+            if (node.IsLeftChild)
+            {
+                node.Parent.Left = null;
+            }
+            else if (node.IsRightChild)
+            {
+                node.Parent.Right = null;
+            }
+
+            node.Parent = null;
         }
     }
 }

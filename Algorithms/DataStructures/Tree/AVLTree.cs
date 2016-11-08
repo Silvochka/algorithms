@@ -92,17 +92,9 @@ namespace Algorithms.DataStructures.Tree
         {
             if (node.IsTerminate)
             {
-                if (node.IsLeftChild)
-                {
-                    node.Parent.Left = null;
-                }
-                else if (node.IsRightChild)
-                {
-                    node.Parent.Right = null;
-                }
-
-                this.RebalanceIn(node.Parent as AVLTreeNode<T>);
-                node.Parent = null;
+                var parentNode = node.Parent as AVLTreeNode<T>;
+                this.RemoveLeaf(node);
+                this.RebalanceIn(parentNode as AVLTreeNode<T>);
             }
             else
             {
@@ -141,12 +133,7 @@ namespace Algorithms.DataStructures.Tree
                     }
 
                     currentNode.Height -= 2;
-
-                    var rotatedNode = this.RotateLeft(currentNode);
-                    if (currentNode == this.Root)
-                    {
-                        this.Root = rotatedNode;
-                    }
+                    this.RotateLeft(currentNode);
                 }
 
                 if (currentNode.BalanceFactor == -2)
@@ -159,11 +146,7 @@ namespace Algorithms.DataStructures.Tree
                     }
 
                     currentNode.Height -= 2;
-                    var rotatedNode = this.RotateRight(currentNode);
-                    if (currentNode == this.Root)
-                    {
-                        this.Root = rotatedNode;
-                    }
+                    this.RotateRight(currentNode);
                 }
 
                 currentNode = currentNode.Parent as AVLTreeNode<T>;

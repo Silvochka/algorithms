@@ -111,6 +111,26 @@ namespace Algorithms.DataStructures.Tree
             get { return this.Depth + 1; }
         }
 
+        public BinarySearchTreeNode<T> Sibling
+        {
+            get
+            {
+                return this.IsRightChild
+                    ? this.Parent.Left
+                    : this.Parent?.Right;
+            }
+        }
+
+        public BinarySearchTreeNode<T> Uncle
+        {
+            get { return this.Parent?.Sibling; }
+        }
+
+        public BinarySearchTreeNode<T> Grandparent
+        {
+            get { return this.Parent?.Parent; }
+        }
+
         private int GetHeight(BinarySearchTreeNode<T> node)
         {
             if (node.IsTerminate)
