@@ -231,6 +231,8 @@ namespace Algorithms.DataStructures.Tree
                 }
             }
 
+            // after that sibling is black
+
             // if node, parent and sibling is black and terminate - recolor sibling to red and update color of parent
             if (parent.IsBlack && sibling.IsBlack && sibling.IsTerminate)
             {
@@ -250,35 +252,31 @@ namespace Algorithms.DataStructures.Tree
             var leftChildOfSibling = sibling.Left as RedBlackTreeNode<T>;
             var rightChildOfSibling = sibling.Right as RedBlackTreeNode<T>;
             // cases when sibling has one red child "between"
-            if (sibling.IsBlack)
+            if (node.IsLeftChild
+                && rightChildOfSibling == null
+                && leftChildOfSibling != null
+                && leftChildOfSibling.IsRed)
             {
-                if (node.IsLeftChild
-                    && rightChildOfSibling == null
-                    && leftChildOfSibling != null
-                    && leftChildOfSibling.IsRed)
-                {
-                    sibling.Color = NodeColor.Red;
-                    leftChildOfSibling.Color = NodeColor.Black;
-                    this.RotateRight(sibling);
-                    sibling = sibling.Parent as RedBlackTreeNode<T>;
-                }
+                sibling.Color = NodeColor.Red;
+                leftChildOfSibling.Color = NodeColor.Black;
+                this.RotateRight(sibling);
+                sibling = sibling.Parent as RedBlackTreeNode<T>;
+            }
 
-                if (node.IsRightChild
-                    && leftChildOfSibling == null
-                    && rightChildOfSibling != null
-                    && rightChildOfSibling.IsRed)
-                {
-                    sibling.Color = NodeColor.Red;
-                    rightChildOfSibling.Color = NodeColor.Black;
-                    this.RotateLeft(sibling);
-                    sibling = sibling.Parent as RedBlackTreeNode<T>;
-                }
+            if (node.IsRightChild
+                && leftChildOfSibling == null
+                && rightChildOfSibling != null
+                && rightChildOfSibling.IsRed)
+            {
+                sibling.Color = NodeColor.Red;
+                rightChildOfSibling.Color = NodeColor.Black;
+                this.RotateLeft(sibling);
+                sibling = sibling.Parent as RedBlackTreeNode<T>;
             }
 
             rightChildOfSibling = sibling.Right as RedBlackTreeNode<T>;
             leftChildOfSibling = sibling.Left as RedBlackTreeNode<T>;
             if (node.IsLeftChild
-                && sibling.IsBlack
                 && rightChildOfSibling != null
                 && rightChildOfSibling.IsRed)
             {
@@ -286,10 +284,10 @@ namespace Algorithms.DataStructures.Tree
                 parent.Color = NodeColor.Black;
                 rightChildOfSibling.Color = NodeColor.Black;
                 this.RotateLeft(parent);
-            } else if (node.IsRightChild
-                && sibling.IsBlack
-                && leftChildOfSibling != null
-                && leftChildOfSibling.IsRed)
+            }
+            else if (node.IsRightChild
+              && leftChildOfSibling != null
+              && leftChildOfSibling.IsRed)
             {
                 sibling.Color = parent.Color;
                 parent.Color = NodeColor.Black;
