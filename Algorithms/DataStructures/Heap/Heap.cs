@@ -2,6 +2,15 @@
 
 namespace Algorithms.DataStructures.Heap
 {
+    /// <summary>
+    /// Heap is the abstract data type which allows to store partially sorted data
+    /// On the practice - this is array where
+    /// For min heap: a[i] &lt; a[2i + 1] and a[i] &lt; a[2i + 2]
+    /// For max heap: a[i] &gt; a[2i + 1] and a[i] &gt; a[2i + 2]
+    /// 
+    /// Insert: O(lg n)
+    /// Remove top: O(lg n)
+    /// </summary>
     public class Heap
     {
         List<int> heap;
@@ -56,7 +65,7 @@ namespace Algorithms.DataStructures.Heap
                 return true;
             }
 
-            for (var i = 0; i < this.heap.Count; i++)
+            for (var i = 0; i < this.heap.Count / 2; i++)
             {
                 var child1Index = 2 * i + 1;
                 var child2Index = 2 * i + 2;

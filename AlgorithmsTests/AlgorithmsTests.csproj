@@ -74,8 +74,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CrackingTheCodeInterview\01ChapterStringArray\ArrayTests.cs" />
     <Compile Include="DataStructures\HashTable\HashTableTestsFactory.cs" />
     <Compile Include="DataStructures\Heap\HeapTests.cs" />
+    <Compile Include="CrackingTheCodeInterview\01ChapterStringArray\StringTests.cs" />
     <Compile Include="DataStructures\Tree\BinarySearchTreeTests.cs" />
     <Compile Include="DataStructures\Tree\BinarySearchTreeNodeTests.cs" />
     <Compile Include="DataStructures\Tree\AVLTreeTests.cs" />
