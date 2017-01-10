@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrackingTheCodeInterview\01ChapterStringArray\Array.cs" />
+    <Compile Include="CrackingTheCodeInterview\02ChapterLinkedLists\LinkedList.cs" />
     <Compile Include="DataStructures\HashTable\HashTableItem.cs" />
     <Compile Include="DataStructures\HashTable\DoubleHashTable.cs" />
     <Compile Include="DataStructures\HashTable\QuadraticHashTable.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="DataStructures\HashTable\HashTableWithLinkedList.cs" />
     <Compile Include="DataStructures\Heap\Heap.cs" />
     <Compile Include="CrackingTheCodeInterview\01ChapterStringArray\String.cs" />
+    <Compile Include="DataStructures\LinkedList\LinkedList.cs" />
+    <Compile Include="DataStructures\LinkedList\LinkedListNode.cs" />
     <Compile Include="DataStructures\Tree\RedBlackTree.cs" />
     <Compile Include="DataStructures\Tree\AVLTree.cs" />
     <Compile Include="DataStructures\Tree\RedBlackTreeNode.cs" />
