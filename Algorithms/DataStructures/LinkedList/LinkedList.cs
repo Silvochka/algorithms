@@ -16,6 +16,22 @@
             }
         }
 
+        public int Length
+        {
+            get
+            {
+                var current = this.Head;
+                var length = 0;
+                while (current != null)
+                {
+                    length++;
+                    current = current.Next;
+                }
+
+                return length;
+            }
+        }
+
         public LinkedList(T[] values) : this()
         {
             if (values == null || values.Length == 0)
@@ -44,6 +60,23 @@
             var newNode = new LinkedListNode<T>(value);
             newNode.Next = this.Head;
             this.Head = newNode;
+        }
+
+        public void AddToEnd(T value)
+        {
+            if (this.IsEmpty)
+            {
+                this.Head = new LinkedListNode<T>(value);
+                return;
+            }
+
+            var tail = this.Head;
+            while(tail.Next != null)
+            {
+                tail = tail.Next;
+            }
+
+            tail.Next = new LinkedListNode<T>(value);
         }
 
         public bool IsSameListAs(LinkedList<T> other)

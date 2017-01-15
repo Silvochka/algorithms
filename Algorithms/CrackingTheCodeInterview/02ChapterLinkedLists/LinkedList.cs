@@ -155,5 +155,281 @@ namespace Algorithms.Interview.Chapter2
                 currentAfter.Next = null;
             }
         }
+
+        /// <summary>
+        /// Calculates sum of numbers stored on linked list in reversed order
+        /// </summary>
+        /// <param name="a">First summand</param>
+        /// <param name="b">Second summand</param>
+        /// <returns>Sum result in linked list</returns>
+        public static DataStructures.LinkedList.LinkedList<int> SumReversed(this DataStructures.LinkedList.LinkedList<int> a, DataStructures.LinkedList.LinkedList<int> b)
+        {
+            if (a == null || a.IsEmpty)
+            {
+                return b;
+            }
+
+            if (b == null || b.IsEmpty)
+            {
+                return a;
+            }
+
+            var result = new DataStructures.LinkedList.LinkedList<int>();
+            var overflow = 0;
+            var first = a.Head;
+            var second = b.Head;
+
+            while (first != null || second != null)
+            {
+                var sum = (first?.Content ?? 0) + (second?.Content ?? 0) + overflow;
+                var currentValue = sum % 10;
+                overflow = sum / 10;
+                result.AddToEnd(currentValue);
+
+                first = first?.Next;
+                second = second?.Next;
+            }
+
+            if (overflow > 0)
+            {
+                result.AddToEnd(overflow);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates sum of numbers stored on linked list in odinal order
+        /// </summary>
+        /// <param name="a">First summand</param>
+        /// <param name="b">Second summand</param>
+        /// <returns>Sum result in linked list</returns>
+        public static DataStructures.LinkedList.LinkedList<int> Sum(this DataStructures.LinkedList.LinkedList<int> a, DataStructures.LinkedList.LinkedList<int> b)
+        {
+            if (a == null || a.IsEmpty)
+            {
+                return b;
+            }
+
+            if (b == null || b.IsEmpty)
+            {
+                return a;
+            }
+
+            int length1 = a.Length;
+            int length2 = b.Length;
+
+            if (length1 < length2)
+            {
+                padLeft(a, length2 - length1);
+            }
+
+            if (length2 < length1)
+            {
+                padLeft(b, length1 - length2);
+            }
+
+            var result = sumHelper(a.Head, b.Head);
+            if (result.Overflow > 0)
+            {
+                result.result.AddToBegin(result.Overflow);
+            }
+
+            return result.result;
+        }
+
+        private static void padLeft(DataStructures.LinkedList.LinkedList<int> list, int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                list.AddToBegin(0);
+            }
+        }
+
+        private static SumResult sumHelper(DataStructures.LinkedList.LinkedListNode<int> a, DataStructures.LinkedList.LinkedListNode<int> b)
+        {
+            if (a == null || b == null)
+            {
+                return new SumResult();
+            }
+
+            var result = sumHelper(a.Next, b.Next);
+
+            var sum = result.Overflow + a.Content + b.Content;
+            result.result.AddToBegin(sum % 10);
+            result.Overflow = sum / 10;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Checks is given list is palindrome
+        /// </summary>
+        /// <typeparam name="T">Content type</typeparam>
+        /// <param name="list">Given list</param>
+        /// <returns>First intersection node</returns>
+        public static bool IsPalindrome<T>(this DataStructures.LinkedList.LinkedList<T> list)
+        {
+            if (list == null || list.IsEmpty)
+            {
+                return false;
+            }
+
+            var fast = list.Head;
+            var slow = list.Head;
+            var stack = new Stack<T>();
+
+            while (fast != null && fast.Next != null)
+            {
+                stack.Push(slow.Content);
+                slow = slow.Next;
+                fast = fast.Next.Next;
+            }
+
+            // odd length
+            if (fast != null)
+            {
+                slow = slow.Next;
+            }
+
+            while (stack.Count > 0)
+            {
+                if (!stack.Pop().Equals(slow.Content))
+                {
+                    return false;
+                }
+
+                slow = slow.Next;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Return node of intersecion (by ref) between lists. Is no intersection - return null
+        /// </summary>
+        /// <typeparam name="T">Content type</typeparam>
+        /// <param name="list1">First list</param>
+        /// <param name="list2">Second list</param>
+        /// <returns>Node of intersection</returns>
+        public static DataStructures.LinkedList.LinkedListNode<T> GetIntersection<T>(this DataStructures.LinkedList.LinkedList<T> list1, DataStructures.LinkedList.LinkedList<T> list2)
+        {
+            if (list1 == null || list1.IsEmpty || list2 == null || list2.IsEmpty)
+            {
+                return null;
+            }
+
+            var countAndTail1 = GetCountAndTail(list1);
+            var countAndTail2 = GetCountAndTail(list2);
+
+            if (countAndTail1.Tail != countAndTail2.Tail)
+            {
+                return null;
+            }
+
+            var shorter = countAndTail1.Count < countAndTail2.Count
+                ? list1.Head : list2.Head;
+
+            var longer = countAndTail1.Count < countAndTail2.Count
+                ? list2.Head : list1.Head;
+
+            for (var i = 0; i < Math.Abs(countAndTail1.Count - countAndTail2.Count); i++)
+            {
+                longer = longer.Next;
+            }
+
+            while (shorter != null)
+            {
+                if (shorter == longer)
+                {
+                    return shorter;
+                }
+
+                shorter = shorter.Next;
+                longer = longer.Next;
+            }
+
+            return null;
+        }
+
+        private static CountAndTail<T> GetCountAndTail<T>(DataStructures.LinkedList.LinkedList<T> list)
+        {
+            var result = new CountAndTail<T>();
+            var current = list.Head;
+
+            while (current != null)
+            {
+                result.Count++;
+                result.Tail = current;
+                current = current.Next;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns start of loop if it exists
+        /// </summary>
+        /// <typeparam name="T">Content type</typeparam>
+        /// <param name="list">Linked list</param>
+        /// <returns>Start of loop is exists</returns>
+        public static DataStructures.LinkedList.LinkedListNode<T> GetStartOfLoop<T>(this DataStructures.LinkedList.LinkedList<T> list)
+        {
+            if (list == null || list.IsEmpty)
+            {
+                return null;
+            }
+
+            var slow = list.Head;
+            var fast = list.Head;
+
+            // after K steps: slow is on the beginning of the loop, fast in the loop. 
+            // Distance between them = loop length - k
+            // after more LL - k steps, they are collised at K steps before loop start
+            while (fast != null && fast.Next != null)
+            {
+                slow = slow.Next;
+                fast = fast.Next.Next;
+
+                if (fast == slow)
+                {
+                    break;
+                }
+            }
+
+            // no loop
+            if (fast == null || fast.Next == null)
+            {
+                return null;
+            }
+
+            // move slow to Head and go K steps until collision = loop start
+            slow = list.Head;
+            while (slow != fast)
+            {
+                slow = slow.Next;
+                fast = fast.Next;
+            }
+
+            return slow;
+        }
+    }
+
+    class SumResult
+    {
+        public DataStructures.LinkedList.LinkedList<int> result;
+        public int Overflow;
+
+        public SumResult()
+        {
+            this.result = new DataStructures.LinkedList.LinkedList<int>();
+            this.Overflow = 0;
+        }
+    }
+
+    class CountAndTail<T>
+    {
+        public int Count = 0;
+        public DataStructures.LinkedList.LinkedListNode<T> Tail;
     }
 }
