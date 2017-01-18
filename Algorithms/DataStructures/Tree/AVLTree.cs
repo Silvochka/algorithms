@@ -78,14 +78,16 @@ namespace Algorithms.DataStructures.Tree
         /// Verifying AVL tree node
         /// </summary>
         /// <param name="node">Tree node</param>
+        /// <param name="min">Tree min node</param>
+        /// <param name="max">Tree max node</param>
         /// <returns>True if AVL tree node is valid</returns>
-        protected override bool VerifyIn(BinarySearchTreeNode<T> node)
+        protected override bool VerifyIn(BinarySearchTreeNode<T> node, BinarySearchTreeNode<T> min = null, BinarySearchTreeNode<T> max = null)
         {
             var avlNode = node as AVLTreeNode<T>;
 
             return avlNode.CalculatedHeight == avlNode.Height
                 && Math.Abs(avlNode.BalanceFactor) < 2
-                && base.VerifyIn(node);
+                && base.VerifyIn(node, min, max);
         }
 
         protected override void Remove(BinarySearchTreeNode<T> node)

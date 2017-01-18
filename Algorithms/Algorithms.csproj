@@ -72,6 +72,9 @@
     <Compile Include="CrackingTheCodeInterview\03ChapterStackQueue\StackExt.cs" />
     <Compile Include="CrackingTheCodeInterview\03ChapterStackQueue\StackSet.cs" />
     <Compile Include="CrackingTheCodeInterview\03ChapterStackQueue\StackWithMin.cs" />
+    <Compile Include="CrackingTheCodeInterview\04ChapterTreeGraph\Tree.cs" />
+    <Compile Include="DataStructures\Graph\Graph.cs" />
+    <Compile Include="DataStructures\Graph\GraphNode.cs" />
     <Compile Include="DataStructures\HashTable\HashTableItem.cs" />
     <Compile Include="DataStructures\HashTable\DoubleHashTable.cs" />
     <Compile Include="DataStructures\HashTable\QuadraticHashTable.cs" />

@@ -143,7 +143,7 @@ namespace Algorithms.DataStructures.Tree
                 return true;
             }
 
-            return this.VerifyIn(this.Root);
+            return this.VerifyIn(this.Root, null, null);
         }
 
         /// <summary>
@@ -658,25 +658,15 @@ namespace Algorithms.DataStructures.Tree
             }
         }
 
-        protected virtual bool VerifyIn(BinarySearchTreeNode<T> node)
+        protected virtual bool VerifyIn(BinarySearchTreeNode<T> node, BinarySearchTreeNode<T> min = null, BinarySearchTreeNode<T> max = null)
         {
-            if (node.HasLeft
-                && (node.CompareTo(node.Left) <= 0
-                    || node.Left.Parent != node
-                    || !this.VerifyIn(node.Left)))
+            if ((min != null && node.CompareTo(min) <= 0) || (max != null && node.CompareTo(max) > 0))
             {
                 return false;
             }
 
-            if (node.HasRight
-                && (node.CompareTo(node.Right) > 0
-                    || node.Right.Parent != node
-                    || !this.VerifyIn(node.Right)))
-            {
-                return false;
-            }
-
-            return true;
+            return (!node.HasLeft || this.VerifyIn(node.Left, min, node)) && 
+                (!node.HasRight || this.VerifyIn(node.Right, node, max));
         }
 
         private void TraverseIn(BinarySearchTreeNode<T> node, TraverseDirection direction, Action<T> action)

@@ -78,6 +78,8 @@
     <Compile Include="CrackingTheCodeInterview\02ChapterLinkedLists\LinkedListTests.cs" />
     <Compile Include="CrackingTheCodeInterview\03ChapterStackQueue\QueueTests.cs" />
     <Compile Include="CrackingTheCodeInterview\03ChapterStackQueue\StackTests.cs" />
+    <Compile Include="CrackingTheCodeInterview\04ChapterTreeGraph\TreeTests.cs" />
+    <Compile Include="DataStructures\Graph\GraphTests.cs" />
     <Compile Include="DataStructures\HashTable\HashTableTestsFactory.cs" />
     <Compile Include="DataStructures\Heap\HeapTests.cs" />
     <Compile Include="CrackingTheCodeInterview\01ChapterStringArray\StringTests.cs" />
