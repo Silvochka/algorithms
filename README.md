@@ -67,7 +67,7 @@ Data stuctures:
     - [Insert](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTree.cs#L32)
     - [Verify](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTree.cs#L82)
     - [Remove](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTree.cs#L91)
-    - [RebalanceIn](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTree.cs#L124)
+    - [RebalanceIn](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTree.cs#L118)
   - [AVL tree node](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTreeNode.cs)
     - [Balance factor](https://github.com/Silvochka/algorithms/blob/dev/Algorithms/DataStructures/Tree/AVLTreeNode.cs#L18)
 
